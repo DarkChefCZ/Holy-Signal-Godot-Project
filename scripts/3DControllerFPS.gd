@@ -12,6 +12,9 @@ extends CharacterBody3D
 @export var SENSITIVITY = 0.002
 @export var CameraMaxLookY = 60
 @export var CameraMinLookY = -40
+@export var BOB_FREQ = 2.0
+@export var BOB_AMP = 0.08
+var t_bob = 0.0
 
 @export_group("Walk Settings")
 @export var SPEED = 5.0
@@ -84,6 +87,15 @@ func _physics_process(delta: float) -> void:
 			velocity.z = 0.0
 	else: pass
 	
+	# Head bobbing
+	t_bob += delta * velocity.length() * float(is_on_floor())
+	camera_3d.transform.origin = _headbob(t_bob)
+	
 	if EnableWalking == true or EnableJumping == true:
 		move_and_slide()
-	
+
+func _headbob(time) -> Vector3:
+	var pos = Vector3.ZERO
+	pos.y = sin(time * BOB_FREQ) * BOB_AMP
+	pos.x = cos(time * BOB_FREQ / 2) * BOB_AMP
+	return pos

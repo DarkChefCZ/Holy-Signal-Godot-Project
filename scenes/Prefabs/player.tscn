@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://8wuuyqhvgo6v"]
+[gd_scene load_steps=8 format=3 uid="uid://8wuuyqhvgo6v"]
 
 [ext_resource type="Script" uid="uid://bn0nmww70ctr2" path="res://scripts/3DControllerFPS.gd" id="1_cyb0k"]
+[ext_resource type="Texture2D" uid="uid://dpj47kqqaff1u" path="res://assets/cursors/base_cursor.png" id="2_ig8p6"]
 [ext_resource type="PackedScene" uid="uid://bpu7qu6dycam5" path="res://scenes/Prefabs/InteractionComponents/interaction_controller.tscn" id="2_wabmd"]
+[ext_resource type="Texture2D" uid="uid://dwkx3ep42so3y" path="res://assets/cursors/can_interact_cursor.png" id="4_wpmm3"]
+[ext_resource type="Texture2D" uid="uid://i18u1txnhmgf" path="res://assets/cursors/interacting_cursor.png" id="5_n1p3x"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tl5kw"]
 
@@ -11,7 +14,6 @@ points = PackedVector3Array(-0.12520654, -0.532801, -0.4805069, 0.022783129, 0.4
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("interaction_controller")]
 script = ExtResource("1_cyb0k")
 EnableWalking = true
-EnableJumping = true
 EnablePhysicsInteraction = true
 CameraMinLookY = -80
 interaction_controller = NodePath("InteractionController")
@@ -20,6 +22,7 @@ interaction_controller = NodePath("InteractionController")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5008013, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
+fov = 80.0
 
 [node name="InteractionRaycast" type="RayCast3D" parent="Head/Camera3D"]
 target_position = Vector3(0, 0, -2)
@@ -27,7 +30,18 @@ target_position = Vector3(0, 0, -2)
 [node name="Hand" type="Marker3D" parent="Head/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
+[node name="SpotLight3D" type="SpotLight3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.59438527)
+visible = false
+light_energy = 10.0
+light_indirect_energy = 4.0
+distance_fade_enabled = true
+spot_range = 50.0
+spot_attenuation = 2.0
+spot_angle = 25.0
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("CapsuleMesh_tl5kw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -36,3 +50,38 @@ shape = SubResource("ConvexPolygonShape3D_cyb0k")
 [node name="InteractionController" parent="." instance=ExtResource("2_wabmd")]
 unique_name_in_owner = true
 NameOfInteractionComponentNode = "InteractionComponent"
+
+[node name="GUI" type="Node" parent="."]
+
+[node name="ReticleLayer" type="CanvasLayer" parent="GUI"]
+
+[node name="Control" type="Control" parent="GUI/ReticleLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="DefaultReticle" type="TextureRect" parent="GUI/ReticleLayer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_ig8p6")
+stretch_mode = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="CanInteractReticle" type="TextureRect" parent="GUI/ReticleLayer/Control"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("4_wpmm3")
+stretch_mode = 3
+
+[node name="InteractingReticle" type="TextureRect" parent="GUI/ReticleLayer/Control"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("5_n1p3x")
+stretch_mode = 3

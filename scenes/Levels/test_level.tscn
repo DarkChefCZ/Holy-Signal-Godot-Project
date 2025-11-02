@@ -1,10 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://bgj76c22s1evx"]
+[gd_scene load_steps=11 format=3 uid="uid://bgj76c22s1evx"]
 
 [ext_resource type="PackedScene" uid="uid://8wuuyqhvgo6v" path="res://scenes/Prefabs/player.tscn" id="1_rvaov"]
-[ext_resource type="PackedScene" uid="uid://d32vyv7fdu8sr" path="res://scenes/Prefabs/InteractionObjects/door.tscn" id="2_wa5q0"]
-[ext_resource type="PackedScene" uid="uid://4hqij1bvtqsw" path="res://scenes/Prefabs/InteractionObjects/switch.tscn" id="3_ka0q3"]
-[ext_resource type="PackedScene" uid="uid://6vsowbhcia7k" path="res://scenes/Prefabs/InteractionObjects/test_block_1_kg.tscn" id="4_gd42f"]
-[ext_resource type="PackedScene" uid="uid://6ghc7qqy1rq7" path="res://scenes/Prefabs/InteractionObjects/wheel.tscn" id="5_eg032"]
+[ext_resource type="PackedScene" uid="uid://d32vyv7fdu8sr" path="res://scenes/Prefabs/TestInteractionObjects/testdoor.tscn" id="2_wa5q0"]
+[ext_resource type="PackedScene" uid="uid://4hqij1bvtqsw" path="res://scenes/Prefabs/TestInteractionObjects/testswitch.tscn" id="3_ka0q3"]
+[ext_resource type="PackedScene" uid="uid://6vsowbhcia7k" path="res://scenes/Prefabs/TestInteractionObjects/test_block_1_kg.tscn" id="4_gd42f"]
+[ext_resource type="PackedScene" uid="uid://6ghc7qqy1rq7" path="res://scenes/Prefabs/TestInteractionObjects/testwheel.tscn" id="5_eg032"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wa5q0"]
+
+[sub_resource type="Sky" id="Sky_ka0q3"]
+sky_material = SubResource("ProceduralSkyMaterial_wa5q0")
+
+[sub_resource type="Environment" id="Environment_gd42f"]
+background_mode = 2
+sky = SubResource("Sky_ka0q3")
+
+[sub_resource type="FogMaterial" id="FogMaterial_wa5q0"]
+density = -8.0
+emission = Color(0.06128613, 0.08597044, 0.11418029, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wa5q0"]
 
 [node name="Test_Level" type="Node3D"]
 
@@ -18,10 +33,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06209209, 1.0613915, -0.03
 jump_height = 2.0
 
 [node name="Door" parent="." instance=ExtResource("2_wa5q0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.93837786, -0.00085061044, -6.2357674)
-
-[node name="Switch" parent="." instance=ExtResource("3_ka0q3")]
-transform = Transform3D(0.70710677, -0.70710677, -8.742278e-08, -0.70710677, -0.70710677, 0, -6.181724e-08, 6.181724e-08, -1, -3.6191182, 2.2810626, 0.073037624)
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, -0.93837786, -0.00085061044, -6.2357674)
 
 [node name="TestBlock_1kg" parent="." instance=ExtResource("4_gd42f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9441752, 0.49914843, -5.579013)
@@ -29,8 +41,73 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9441752, 0.49914843, -5.579
 [node name="Wheel" parent="." instance=ExtResource("5_eg032")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.058092, 1.2368727, -0.29238057)
 
-[node name="podium" type="Node3D" parent="."]
+[node name="podiumSwitch" type="Node3D" parent="."]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="podium"]
+[node name="CSGBox3D" type="CSGBox3D" parent="podiumSwitch"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1051655, 1.5901799, 0)
 size = Vector3(1, 3.435, 1)
+
+[node name="Switch" parent="podiumSwitch" instance=ExtResource("3_ka0q3")]
+transform = Transform3D(0.70710677, -0.70710677, -8.742278e-08, -0.70710677, -0.70710677, 0, -6.181724e-08, 6.181724e-08, -1, -3.6191182, 2.2810626, 0.073037624)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gd42f")
+
+[node name="fogNodes" type="Node3D" parent="."]
+
+[node name="FogFreeZone" type="FogVolume" parent="fogNodes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.67606544, 1.884085, -1.7600327)
+size = Vector3(6.3636017, 4.1531982, 9.145809)
+material = SubResource("FogMaterial_wa5q0")
+
+[node name="Test lights" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Test lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.667222, 0)
+light_color = Color(0.8942219, 0.73266643, 0.2821218, 1)
+light_energy = 0.35
+light_indirect_energy = 12.363
+light_volumetric_fog_energy = 0.3
+light_size = 0.28
+light_specular = 13.318
+distance_fade_enabled = true
+distance_fade_begin = 30.0
+distance_fade_length = 20.0
+
+[node name="TestRoom" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="TestRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4408557, 1.7370605, -1.7898102)
+use_collision = true
+size = Vector3(0.12792969, 4.474121, 9.380646)
+material = SubResource("StandardMaterial3D_wa5q0")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="TestRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7870483, 1.7370605, -1.7898102)
+use_collision = true
+size = Vector3(0.12792969, 4.474121, 9.380646)
+material = SubResource("StandardMaterial3D_wa5q0")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="TestRoom"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0.66607666, 3.9782352, -1.7675457)
+use_collision = true
+size = Vector3(0.12792969, 6.256592, 9.082901)
+material = SubResource("StandardMaterial3D_wa5q0")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="TestRoom"]
+transform = Transform3D(-4.371139e-08, 0, -0.6915037, 0, 1, 0, 1, 0, -3.0226587e-08, 0.76136065, 1.7370605, 2.7610753)
+use_collision = true
+size = Vector3(0.12792969, 4.474121, 9.380646)
+material = SubResource("StandardMaterial3D_wa5q0")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="TestRoom"]
+transform = Transform3D(-4.371139e-08, 0, -0.6915037, 0, 1, 0, 1, 0, -3.0226587e-08, 2.339642, 1.7370605, -6.2832937)
+use_collision = true
+size = Vector3(0.12792969, 4.474121, 4.8158646)
+material = SubResource("StandardMaterial3D_wa5q0")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="TestRoom"]
+transform = Transform3D(-4.371139e-08, 0, -0.6915037, 0, 1, 0, 1, 0, -3.0226587e-08, -2.6347022, 1.7370605, -6.2832937)
+use_collision = true
+size = Vector3(0.12792969, 4.474121, 4.8913307)
+material = SubResource("StandardMaterial3D_wa5q0")
