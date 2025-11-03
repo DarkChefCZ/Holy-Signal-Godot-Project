@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://7m30qxnedqom"]
+[gd_scene load_steps=6 format=3 uid="uid://7m30qxnedqom"]
 
 [ext_resource type="Texture2D" uid="uid://c7e88rj1x5380" path="res://assets/testingpage.png" id="1_mo4s8"]
+[ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="2_2kxxh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2kxxh"]
 
@@ -12,6 +13,7 @@ albedo_texture = ExtResource("1_mo4s8")
 size = Vector3(2.154541, 0.06640625, 3.0097656)
 
 [node name="TestNote" type="StaticBody3D"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.112, 0, 0, 0, 1, 0, 0, 0, 1.536, 0, 0, 0)
@@ -20,3 +22,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_d1jun")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_mo4s8")
+
+[node name="InteractionComponent" parent="." node_paths=PackedStringArray("object_ref") instance=ExtResource("2_2kxxh")]
+object_ref = NodePath("..")
+interaction_type = 4

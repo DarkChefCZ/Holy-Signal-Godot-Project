@@ -5,19 +5,26 @@ extends Node
 @onready var hand: Marker3D = $"../Head/Camera3D/Hand"
 @onready var player_camera: Camera3D = $"../Head/Camera3D"
 @onready var control: Control = $"../GUI/ReticleLayer/Control"
+@onready var note_hand: Marker3D = %NoteHand
+@onready var note_storage: Node3D = $"../../TestNoteStorage"
+@onready var player: CharacterBody3D = $".."
+
 
 # Reticles
 @onready var default_reticle: TextureRect = $"../GUI/ReticleLayer/Control/DefaultReticle"
 @onready var can_interact_reticle: TextureRect = $"../GUI/ReticleLayer/Control/CanInteractReticle"
 @onready var interacting_reticle: TextureRect = $"../GUI/ReticleLayer/Control/InteractingReticle"
 
+# --- EXPORTS ---
 @export var InteractableDistance: float = -2.0 #negative z is where our camera is aiming at in the Player scene
 @export var NameOfInteractionComponentNode: String #put here the name of the interaction component NODE that your rigid body 3D nodes have
-
+# --- --- ---
 
 var current_object: Object
 var last_potential_object: Object
 var interaction_component: Node
+var note_og_transform: Transform3D
+var note_og_rotation_x: float
 
 func _ready() -> void:
 	ray_cast_3d.target_position.z = InteractableDistance
@@ -96,6 +103,11 @@ func _process(_delta: float) -> void:
 					current_object = potential_object
 					interaction_component.preInteract(hand)
 					
+					if interaction_component.interaction_type == interaction_component.InteractionType.NOTE:
+						if not interaction_component.is_connected("note_collected", Callable(self, "_on_note_collected")):
+							interaction_component.connect("note_collected", Callable(self, "_on_note_collected"))
+						
+					
 					if interaction_component.interaction_type == interaction_component.InteractionType.DOOR:
 						interaction_component.set_direction(current_object.to_local(ray_cast_3d.get_collision_point()))
 		else:
@@ -115,3 +127,31 @@ func changeReticle(reticleToggleVis: TextureRect) -> void:
 	for child in control.get_children():
 		child.visible = false
 	reticleToggleVis.visible = true
+
+func _on_note_collected(note: Node3D) -> void:
+	note_og_transform = note.transform
+	note_og_rotation_x = note.rotation_degrees.x
+	note.get_parent().remove_child(note)
+	note_hand.add_child(note)
+	note.transform.origin = note_hand.transform.origin
+	note.position = Vector3.ZERO
+	note.rotation_degrees = Vector3(90.0, 15.0, 0.0)
+	player.EnableWalking = false
+
+
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Secondary_mb"):
+		var children = note_hand.get_children()
+		for child in children:
+			child.get_parent().remove_child(child)
+			note_storage.add_child(child)
+			child.transform = note_og_transform
+			child.rotation_degrees = Vector3(note_og_rotation_x, 0.0, 0.0)
+			var mesh = child.find_child("MeshInstance3D", true, false)
+			if mesh:
+				mesh.layers &= ~(1 << 1)
+				mesh.layers |= 1 << 0
+		player.EnableWalking = true
+	

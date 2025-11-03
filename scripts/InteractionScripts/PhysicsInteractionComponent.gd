@@ -5,10 +5,13 @@ enum InteractionType {
 	DOOR,
 	SWITCH,
 	WHEEL,
-	# BUTTON  Finish This one, not implemented + add reticle support and dynamic sounds
+	NOTE,
+	# BUTTON  Finish This one, not implemented + add dynamic sounds
 }
 
 var player_hand: Marker3D
+
+# --- EXPORTS ---
 
 @export var object_ref: Node3D
 @export var interaction_type: InteractionType = InteractionType.DEFAULT
@@ -27,6 +30,12 @@ var player_hand: Marker3D
 @export_group("Switch-Wheel object Settings")
 @export var nodes_that_switch_affects: Array[String]
 @export var wheel_movement_sensitivity: float = 0.2
+
+# --- --- ---
+
+# --- SIGNALS ---
+signal note_collected(note: Node3D)
+# --- --- ---
 
 var can_interact: bool = true
 var is_interacting: bool = false
@@ -83,6 +92,8 @@ func interact() -> void:
 	match interaction_type:
 		InteractionType.DEFAULT:
 			_default_interact()
+		InteractionType.NOTE:
+			_collect_note()
 	
 
 # Runs if we want to perform auxilart interaction on an object
@@ -178,4 +189,14 @@ func calculate_cross_product(_mouse_position: Vector2) -> float:
 	var vector_to_current = _mouse_position - center_position
 	var cross_product = vector_to_current.x * vector_to_previous.y - vector_to_current.y * vector_to_previous.x
 	return cross_product
+
+func _collect_note() -> void:
+	var mesh = get_parent().find_child("MeshInstance3D", true, false)
+	
+	
+	if mesh:
+		mesh.layers &= ~(1 << 0)
+		mesh.layers |= 1 << 1
+	
+	emit_signal("note_collected", get_parent())
 	

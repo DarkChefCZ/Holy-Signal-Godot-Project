@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="SilentTower"
+config/name="HolySignal"
 run/main_scene="uid://bgj76c22s1evx"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
