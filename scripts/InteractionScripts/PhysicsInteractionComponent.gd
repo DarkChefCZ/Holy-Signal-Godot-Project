@@ -28,6 +28,8 @@ var player_hand: Marker3D
 
 @export_group("Additional Door object Settings")
 @export var door_pivot_point: Node3D
+@export var door_open_se: AudioStreamOggVorbis
+@export var door_close_se: AudioStreamOggVorbis
 
 @export_group("Switch-Wheel object Settings")
 @export var nodes_that_switch_affects: Array[String]
@@ -53,6 +55,17 @@ var nodes_to_affect: Array[Node]
 var camera: Camera3D
 var previous_mouse_position: Vector2
 var wheel_rotation: float = 0.0
+var door_open: bool = false
+var shot_angle_threshold = 0.2
+var shut_snap_range: float = 0.05
+
+# Switch variables
+var switch_target_rotation: float = 0.0
+var switch_lerp_speed: float = 8.0
+var is_switch_snapping: bool = false
+
+# door variables
+var door_velocity: float = 0.0
 
 # Note specific vars
 var holding_note: bool = false
@@ -81,6 +94,7 @@ func _ready() -> void:
 	match interaction_type:
 		InteractionType.DEFAULT:
 			if object_ref.has_signal("body_entered"):
+				primary_audio_player.stream = impact_se
 				object_ref.connect("body_entered", Callable(self, "_on_body_entered"))
 				object_ref.contact_monitor = true
 				object_ref.max_contacts_reported = 1
@@ -91,10 +105,12 @@ func _ready() -> void:
 			starting_rotation = object_ref.rotation.z
 			maxium_rotation = starting_rotation + deg_to_rad(maxium_rotation)
 		InteractionType.DOOR:
+			primary_audio_player.stream = door_open_se
+			secondary_audio_player.stream = door_close_se
 			if door_pivot_point == null:
 				return
 			
-			starting_rotation = door_pivot_point.rotation.x
+			starting_rotation = door_pivot_point.rotation.y
 			maxium_rotation = starting_rotation + deg_to_rad(maxium_rotation)
 		InteractionType.WHEEL:
 			for node in nodes_that_switch_affects:
@@ -121,6 +137,16 @@ func _physics_process(delta: float) -> void:
 					t = 2.0 - t
 				mesh.position.z = lerp(start_y - float_height, start_y + float_height, t)
 
+func _process(delta: float) -> void:
+	match interaction_type:
+		InteractionType.SWITCH:
+			if is_switch_snapping:
+				object_ref.rotation.z = lerp_angle(object_ref.rotation.z, switch_target_rotation, delta * switch_lerp_speed)
+				if abs(object_ref.rotation.z - switch_target_rotation) < 0.1:
+					object_ref.rotation.z = switch_target_rotation
+					is_switch_snapping = false
+			var percentage: float = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+			notify_nodes(percentage)
 
 # Runs once when the player FIRST clicks on an object to interact with
 func preInteract(hand: Marker3D) -> void:
@@ -163,16 +189,29 @@ func postInteract() -> void:
 	is_interacting = false
 	lock_camera = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	match interaction_type:
+		InteractionType.SWITCH:
+			var percentage: float = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+			if percentage < 0.2:
+				switch_target_rotation = starting_rotation
+				is_switch_snapping = true
+			elif percentage > 0.8:
+				switch_target_rotation = maxium_rotation
+				is_switch_snapping = true
 
 func _input(event: InputEvent) -> void:
 	if is_interacting:
 		match interaction_type:
 			InteractionType.DOOR:
 				if event is InputEventMouseMotion:
+					
 					if is_front:
 						door_pivot_point.rotate_y(-event.relative.y * object_sensitivity)
 					else:
 						door_pivot_point.rotate_y(event.relative.y * object_sensitivity)
+					
+					
 					
 					door_pivot_point.rotation.y = clamp(door_pivot_point.rotation.y, starting_rotation, maxium_rotation)
 			InteractionType.SWITCH:
@@ -258,10 +297,18 @@ func _collect_note() -> void:
 
 func _play_sound_effect(_visible: bool, _interact: bool) -> void:
 	if impact_se:
-		primary_audio_player.stream = impact_se
 		primary_audio_player.play()
 
 func _on_body_entered(_node: Node) -> void:
 	var impact_strength = (last_velocity - object_ref.linear_velocity).length()
 	if impact_strength > contact_velocity_threshold:
 		_play_sound_effect(true, true)
+
+func update_door_sounds(delta: float) -> void:
+	if object_ref.velocity.length() > 0 and !door_open: # Doesnt work, need to specificaly check if rotating is happening
+		if not primary_audio_player.playing and door_open_se:
+			primary_audio_player.play()
+			door_open = true
+	
+	
+	

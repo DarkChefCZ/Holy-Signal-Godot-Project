@@ -6,10 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://dwkx3ep42so3y" path="res://assets/cursors/can_interact_cursor.png" id="4_wpmm3"]
 [ext_resource type="Texture2D" uid="uid://i18u1txnhmgf" path="res://assets/cursors/interacting_cursor.png" id="5_n1p3x"]
 [ext_resource type="Shader" uid="uid://dsogovtq51xlw" path="res://shaders/note_overlay_fade.gdshader" id="6_iba7y"]
-[ext_resource type="AudioStream" uid="uid://ckkx2h0a87f8b" path="res://assets/sounds/footstep00.ogg" id="7_wd0ba"]
-[ext_resource type="AudioStream" uid="uid://6lfdcguuyung" path="res://assets/sounds/footstep01.ogg" id="8_rjgie"]
-[ext_resource type="AudioStream" uid="uid://cf5eu6gp7rdgs" path="res://assets/sounds/footstep02.ogg" id="9_x1ndo"]
-[ext_resource type="AudioStream" uid="uid://be418nxr31jjv" path="res://assets/sounds/footstep03.ogg" id="10_v8ent"]
+[ext_resource type="AudioStream" uid="uid://ckkx2h0a87f8b" path="res://assets/sounds/PlayerSounds/footstep00.ogg" id="7_wd0ba"]
+[ext_resource type="AudioStream" uid="uid://6lfdcguuyung" path="res://assets/sounds/PlayerSounds/footstep01.ogg" id="8_rjgie"]
+[ext_resource type="AudioStream" uid="uid://cf5eu6gp7rdgs" path="res://assets/sounds/PlayerSounds/footstep02.ogg" id="9_x1ndo"]
+[ext_resource type="AudioStream" uid="uid://be418nxr31jjv" path="res://assets/sounds/PlayerSounds/footstep03.ogg" id="10_v8ent"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tl5kw"]
 
