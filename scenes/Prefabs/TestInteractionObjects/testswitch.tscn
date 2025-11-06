@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://4hqij1bvtqsw"]
+[gd_scene load_steps=5 format=3 uid="uid://4hqij1bvtqsw"]
 
 [ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="1_7maxx"]
+[ext_resource type="AudioStream" uid="uid://cjmei5kgmonad" path="res://assets/sounds/SwitchSounds/SwitchFlip.ogg" id="2_mlpx8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_6rcqw"]
 size = Vector3(0.1, 0.75, 0.1)
@@ -21,3 +22,4 @@ shape = SubResource("BoxShape3D_6rcqw")
 [node name="InteractionComponent" parent="switch" node_paths=PackedStringArray("object_ref") instance=ExtResource("1_7maxx")]
 object_ref = NodePath("..")
 interaction_type = 2
+switch_flip_se = ExtResource("2_mlpx8")

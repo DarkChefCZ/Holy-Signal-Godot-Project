@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://6ghc7qqy1rq7"]
+[gd_scene load_steps=9 format=3 uid="uid://6ghc7qqy1rq7"]
 
 [ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="1_da8ly"]
+[ext_resource type="AudioStream" uid="uid://dmb7i2fexfyq2" path="res://assets/sounds/WheelSounds/turningWheel.ogg" id="2_1y1t7"]
+[ext_resource type="AudioStream" uid="uid://b2g8fmhb6d6fa" path="res://assets/sounds/WheelSounds/endTurnWheel.ogg" id="3_5kjw4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_vpxks"]
 size = Vector3(0.2, 1.5, 0.1)
@@ -65,3 +67,5 @@ shape = SubResource("BoxShape3D_46opp")
 object_ref = NodePath("..")
 interaction_type = 3
 maxium_rotation = 360.0
+wheel_turning_se = ExtResource("2_1y1t7")
+wheel_done_se = ExtResource("3_5kjw4")

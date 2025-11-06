@@ -33,7 +33,10 @@ var player_hand: Marker3D
 
 @export_group("Switch-Wheel object Settings")
 @export var nodes_that_switch_affects: Array[String]
+@export var switch_flip_se: AudioStreamOggVorbis
 @export var wheel_movement_sensitivity: float = 0.2
+@export var wheel_turning_se: AudioStreamOggVorbis
+@export var wheel_done_se: AudioStreamOggVorbis
 
 @export_group("Note object Settings")
 @export var note_content: String
@@ -55,17 +58,21 @@ var nodes_to_affect: Array[Node]
 var camera: Camera3D
 var previous_mouse_position: Vector2
 var wheel_rotation: float = 0.0
-var door_open: bool = false
-var shot_angle_threshold = 0.2
-var shut_snap_range: float = 0.05
 
-# Switch variables
+# Sound and feedback switch variables
 var switch_target_rotation: float = 0.0
 var switch_lerp_speed: float = 8.0
 var is_switch_snapping: bool = false
+var switch_moved: bool = false
+var switch_kickback_triggered: bool = false
 
-# door variables
-var door_velocity: float = 0.0
+# Sound door variables
+var door_open: bool = false
+var shut_angle_threshold = 0.05
+var open_angle_treshold = 0.1
+var last_door_rotation: Vector3
+
+# Sound wheel variables
 
 # Note specific vars
 var holding_note: bool = false
@@ -99,12 +106,14 @@ func _ready() -> void:
 				object_ref.contact_monitor = true
 				object_ref.max_contacts_reported = 1
 		InteractionType.SWITCH:
+			primary_audio_player.stream = switch_flip_se
 			for node in nodes_that_switch_affects:
 				nodes_to_affect.append(get_tree().get_current_scene().find_child(str(node), true, false))
 			
 			starting_rotation = object_ref.rotation.z
 			maxium_rotation = starting_rotation + deg_to_rad(maxium_rotation)
 		InteractionType.DOOR:
+			last_door_rotation = door_pivot_point.rotation
 			primary_audio_player.stream = door_open_se
 			secondary_audio_player.stream = door_close_se
 			if door_pivot_point == null:
@@ -140,13 +149,28 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	match interaction_type:
 		InteractionType.SWITCH:
+			if is_interacting:
+				update_switch_sounds()
+			
+			
 			if is_switch_snapping:
+				if not switch_kickback_triggered:
+					switch_kickback_triggered = true
+					if switch_flip_se and not primary_audio_player.playing:
+						primary_audio_player.stop()
+						primary_audio_player.volume_db = -8
+						primary_audio_player.play()
+				
 				object_ref.rotation.z = lerp_angle(object_ref.rotation.z, switch_target_rotation, delta * switch_lerp_speed)
 				if abs(object_ref.rotation.z - switch_target_rotation) < 0.1:
 					object_ref.rotation.z = switch_target_rotation
 					is_switch_snapping = false
-			var percentage: float = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
-			notify_nodes(percentage)
+				var percentage: float = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+				notify_nodes(percentage)
+			else:
+				switch_kickback_triggered = false
+		InteractionType.DOOR:
+			update_door_sounds()
 
 # Runs once when the player FIRST clicks on an object to interact with
 func preInteract(hand: Marker3D) -> void:
@@ -158,6 +182,7 @@ func preInteract(hand: Marker3D) -> void:
 			lock_camera = true
 		InteractionType.SWITCH:
 			lock_camera = true
+			switch_moved = false
 		InteractionType.WHEEL:
 			lock_camera = true
 			previous_mouse_position = get_viewport().get_mouse_position()
@@ -216,9 +241,14 @@ func _input(event: InputEvent) -> void:
 					door_pivot_point.rotation.y = clamp(door_pivot_point.rotation.y, starting_rotation, maxium_rotation)
 			InteractionType.SWITCH:
 				if event is InputEventMouseMotion:
+					var prev_angle = object_ref.rotation.z
+					
 					object_ref.rotate_z(event.relative.y * object_sensitivity)
 					object_ref.rotation.z = clamp(object_ref.rotation.z, starting_rotation, maxium_rotation)
 					var percentage: float = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+					
+					if abs(object_ref.rotation.z - prev_angle) > 0.01:
+						switch_moved = true
 					notify_nodes(percentage)
 			InteractionType.WHEEL:
 				if event is InputEventMouseMotion:
@@ -304,11 +334,30 @@ func _on_body_entered(_node: Node) -> void:
 	if impact_strength > contact_velocity_threshold:
 		_play_sound_effect(true, true)
 
-func update_door_sounds(delta: float) -> void:
-	if object_ref.velocity.length() > 0 and !door_open: # Doesnt work, need to specificaly check if rotating is happening
+func update_door_sounds() -> void:
+	var is_rotating = last_door_rotation != door_pivot_point.rotation
+	var door_angle = door_pivot_point.rotation.y
+	if is_rotating and !door_open and abs(door_angle - starting_rotation) > open_angle_treshold:
 		if not primary_audio_player.playing and door_open_se:
+			secondary_audio_player.stop()
+			primary_audio_player.volume_db = -8
 			primary_audio_player.play()
 			door_open = true
+	last_door_rotation = door_pivot_point.rotation
 	
 	
+	if door_open and abs(door_angle - starting_rotation) < shut_angle_threshold:
+		if not secondary_audio_player.playing and door_close_se:
+			primary_audio_player.stop()
+			secondary_audio_player.volume_db = -8
+			secondary_audio_player.play()
+		door_open = false
+
+func update_switch_sounds() -> void:
+	if switch_moved:
+		if abs(object_ref.rotation.z - maxium_rotation) < 0.01 or abs(object_ref.rotation.z - starting_rotation) < 0.01:
+			if primary_audio_player and switch_flip_se:
+				primary_audio_player.volume_db = -8
+				primary_audio_player.play()
+			switch_moved = false
 	

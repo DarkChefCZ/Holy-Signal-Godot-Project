@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://d32vyv7fdu8sr"]
 
 [ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="1_x3cbw"]
-[ext_resource type="AudioStream" uid="uid://c7nu6afhyqrgd" path="res://assets/sounds/DoorSounds/doorOpen.ogg" id="2_oiqki"]
+[ext_resource type="AudioStream" uid="uid://dhuvpuawtesor" path="res://assets/sounds/DoorSounds/doorOpenKnobDown.ogg" id="2_oiqki"]
 [ext_resource type="AudioStream" uid="uid://cqw6ds0j30pqs" path="res://assets/sounds/DoorSounds/doorClose.ogg" id="3_sqhwb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_i1or1"]
