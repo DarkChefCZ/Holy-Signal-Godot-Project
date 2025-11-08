@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bgj76c22s1evx"]
+[gd_scene load_steps=26 format=3 uid="uid://bgj76c22s1evx"]
 
 [ext_resource type="PackedScene" uid="uid://8wuuyqhvgo6v" path="res://scenes/Prefabs/player.tscn" id="1_rvaov"]
 [ext_resource type="PackedScene" uid="uid://d32vyv7fdu8sr" path="res://scenes/Prefabs/TestInteractionObjects/testdoor.tscn" id="2_wa5q0"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://6vsowbhcia7k" path="res://scenes/Prefabs/TestInteractionObjects/test_block_1_kg.tscn" id="4_gd42f"]
 [ext_resource type="PackedScene" uid="uid://6ghc7qqy1rq7" path="res://scenes/Prefabs/TestInteractionObjects/testwheel.tscn" id="5_eg032"]
 [ext_resource type="PackedScene" uid="uid://7m30qxnedqom" path="res://scenes/Prefabs/TestInteractionObjects/test_note.tscn" id="6_ka0q3"]
+[ext_resource type="PackedScene" uid="uid://corw1bm4vi6uw" path="res://scenes/Prefabs/InteractionObjects/entire_heavy_switch.tscn" id="6_tilpl"]
 [ext_resource type="PackedScene" uid="uid://dy65u71dskp5a" path="res://assets/models/AntennaOperationPodiumLarge.gltf" id="7_ri4w8"]
 [ext_resource type="PackedScene" uid="uid://c4es4axlhssa3" path="res://assets/models/AntennaOperationPodiumSmall.gltf" id="8_8juaq"]
 [ext_resource type="PackedScene" uid="uid://uh140rbd0bal" path="res://assets/models/big_switch_base.gltf" id="9_3kijf"]
@@ -17,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://cv0iedr2apm6g" path="res://assets/models/padlock.gltf" id="15_3kijf"]
 [ext_resource type="PackedScene" uid="uid://6ikg6afxjfak" path="res://assets/models/locker_panel_box.gltf" id="16_jvm3s"]
 [ext_resource type="PackedScene" uid="uid://csajl22h5k625" path="res://scenes/Prefabs/InteractionObjects/medium_valve.tscn" id="17_jvm3s"]
+[ext_resource type="PackedScene" uid="uid://c1ut1akto2ylr" path="res://scenes/Prefabs/InteractionObjects/wave_wheel.tscn" id="19_dndow"]
+[ext_resource type="PackedScene" uid="uid://ccvaaxc8umqje" path="res://scenes/Prefabs/InteractionObjects/zero_one_switch.tscn" id="20_t8d5o"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wa5q0"]
 
@@ -61,6 +64,9 @@ size = Vector3(1, 3.435, 1)
 
 [node name="Switch" parent="podiumSwitch" instance=ExtResource("3_ka0q3")]
 transform = Transform3D(0.70710677, -0.70710677, -8.742278e-08, -0.70710677, -0.70710677, 0, -6.181724e-08, 6.181724e-08, -1, -3.6191182, 2.2810626, 0.073037624)
+
+[node name="Entire_heavy_switch" parent="podiumSwitch" instance=ExtResource("6_tilpl")]
+transform = Transform3D(-0.9999999, 8.742277e-08, 3.8213705e-15, 0, -4.3711385e-08, 0.99999994, 8.742277e-08, 0.99999994, 4.3711385e-08, -1.3185505, 1.0499135, -6.2205267)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gd42f")
@@ -152,10 +158,10 @@ transform = Transform3D(0.25, 0, 0, 0, 0.19428648, -0.1573301, 0, 0.1573301, 0.1
 transform = Transform3D(0.24972492, 0.007378349, 0.009111502, 0, 0.19428648, -0.1573301, -0.011724313, 0.15715699, 0.19407271, -0.4040786, 1.2310637, -10.795011)
 
 [node name="blockbench_export7" parent="DemoBlockbenchModels" instance=ExtResource("13_t8d5o")]
-transform = Transform3D(0.036956526, -0.02829765, 0.09016137, 0.06403155, 0.08729528, 0, -0.07703415, 0.058985125, 0.043254208, 2.0365672, 0.89114463, -10.5996)
+transform = Transform3D(0.051919244, -0.03968806, 0.12622592, 0.08995623, 0.12243347, 6.7783166e-09, -0.10822324, 0.08272789, 0.060555898, 0.663419, 1.131715, -10.5996)
 
 [node name="blockbench_export8" parent="DemoBlockbenchModels" instance=ExtResource("14_3747l")]
-transform = Transform3D(-0.125, -1.1878092e-08, 1.4668221e-08, 0, 0.09714324, 0.07866505, -1.8874475e-08, 0.07866505, -0.09714324, 0.31116563, 0.9927956, -10.521994)
+transform = Transform3D(-0.15, -1.4253712e-08, 1.7601867e-08, 0, 0.116571896, 0.094398074, -2.2649372e-08, 0.094398074, -0.116571896, 0.31116563, 0.9927956, -10.521994)
 
 [node name="blockbench_export9" parent="DemoBlockbenchModels" instance=ExtResource("15_3kijf")]
 transform = Transform3D(0.018008206, 0.06406922, 0, -0.07280594, 0.015847221, 0, 0, 0, 0.068, 1.7202802, 1.1516343, -10.826073)
@@ -165,3 +171,9 @@ transform = Transform3D(0.5815389, -0.14849086, -0.20907547, -0.005539554, 0.589
 
 [node name="MediumValve" parent="." instance=ExtResource("17_jvm3s")]
 transform = Transform3D(-4.3711385e-08, -0.258819, 0.9659257, 0, 0.96592575, 0.258819, -0.9999999, 1.1313339e-08, -4.2221956e-08, -2.0067945, 1.1128657, -4.954219)
+
+[node name="Wave_wheel" parent="." instance=ExtResource("19_dndow")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8078225, 0.95442325, -6.196374)
+
+[node name="zero_one_switch" parent="." instance=ExtResource("20_t8d5o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.056311, 0.9862236, -6.181713)

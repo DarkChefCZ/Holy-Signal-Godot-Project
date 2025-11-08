@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://ccvaaxc8umqje"]
+
+[ext_resource type="PackedScene" uid="uid://dhylt3f6jbv7b" path="res://assets/models/panel_switch.gltf" id="1_25ohm"]
+[ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="2_tix0x"]
+[ext_resource type="AudioStream" uid="uid://dmb7i2fexfyq2" path="res://assets/sounds/WheelSounds/turningWheel.ogg" id="3_pu7to"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_25ohm"]
+size = Vector3(0.060676575, 0.056533813, 0.13293457)
+
+[node name="zero_one_switch" type="Node3D"]
+
+[node name="true_false_switch" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.371139e-08, -1, 0, -0.3007058, 1.3144268e-08, -0.95371693, 0.95371693, -4.1688292e-08, -0.3007058, 0, 0, 0)
+
+[node name="blockbench_export" parent="true_false_switch" instance=ExtResource("1_25ohm")]
+transform = Transform3D(-6.5567085e-09, 0.15, -6.5567085e-09, 0, -6.5567085e-09, -0.15, -0.15, -6.5567085e-09, 2.8660284e-16, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="true_false_switch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025760643, -5.340689e-05, -0.00030517692)
+shape = SubResource("BoxShape3D_25ohm")
+
+[node name="InteractionComponent" parent="true_false_switch" node_paths=PackedStringArray("object_ref") instance=ExtResource("2_tix0x")]
+object_ref = NodePath("..")
+interaction_type = 2
+maxium_rotation = 35.0
+rotate_on_x = true
+turn_on_if_zero_one_switch = true
+switch_flip_se = ExtResource("3_pu7to")

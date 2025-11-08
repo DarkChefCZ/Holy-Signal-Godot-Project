@@ -33,6 +33,8 @@ var player_hand: Marker3D
 @export var door_close_se: AudioStreamOggVorbis
 
 @export_group("Switch-Wheel object Settings")
+@export var rotate_on_x: bool = false
+@export var turn_on_if_zero_one_switch: bool = false
 @export var nodes_that_switch_affects: Array[String]
 @export var switch_flip_se: AudioStreamOggVorbis
 @export var wheel_movement_sensitivity: float = 0.2
@@ -122,7 +124,11 @@ func _ready() -> void:
 			for node in nodes_that_switch_affects:
 				nodes_to_affect.append(get_tree().get_current_scene().find_child(str(node), true, false))
 			
-			starting_rotation = object_ref.rotation.z
+			if rotate_on_x:
+				starting_rotation = object_ref.rotation.x
+			else:
+				starting_rotation = object_ref.rotation.z
+			
 			maxium_rotation = starting_rotation + deg_to_rad(maxium_rotation)
 		InteractionType.DOOR:
 			last_door_rotation = door_pivot_point.rotation
@@ -167,9 +173,12 @@ func _process(delta: float) -> void:
 		InteractionType.SWITCH:
 			if is_interacting:
 				update_switch_sounds()
+			if !is_interacting and !is_switch_snapping and !switch_moved:
+				primary_audio_player.stop()
 			
 			
 			if is_switch_snapping:
+				var percentage: float
 				if not switch_kickback_triggered:
 					switch_kickback_triggered = true
 					if switch_flip_se and not primary_audio_player.playing:
@@ -177,11 +186,19 @@ func _process(delta: float) -> void:
 						primary_audio_player.volume_db = volume_primary_audio_player
 						primary_audio_player.play()
 				
-				object_ref.rotation.z = lerp_angle(object_ref.rotation.z, switch_target_rotation, delta * switch_lerp_speed)
-				if abs(object_ref.rotation.z - switch_target_rotation) < 0.1:
-					object_ref.rotation.z = switch_target_rotation
-					is_switch_snapping = false
-				var percentage: float = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+				if rotate_on_x:
+					object_ref.rotation.x = lerp_angle(object_ref.rotation.x, switch_target_rotation, delta * switch_lerp_speed)
+					if abs(object_ref.rotation.x - switch_target_rotation) < 0.1:
+						object_ref.rotation.x = switch_target_rotation
+						is_switch_snapping = false
+					percentage = (object_ref.rotation.x - starting_rotation) / (maxium_rotation - starting_rotation)
+				else:
+					object_ref.rotation.z = lerp_angle(object_ref.rotation.z, switch_target_rotation, delta * switch_lerp_speed)
+					if abs(object_ref.rotation.z - switch_target_rotation) < 0.1:
+						object_ref.rotation.z = switch_target_rotation
+						is_switch_snapping = false
+					percentage= (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+				
 				notify_nodes(percentage)
 			else:
 				switch_kickback_triggered = false
@@ -257,13 +274,34 @@ func postInteract() -> void:
 	
 	match interaction_type:
 		InteractionType.SWITCH:
-			var percentage: float = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
-			if percentage < 0.2:
-				switch_target_rotation = starting_rotation
-				is_switch_snapping = true
-			elif percentage > 0.8:
-				switch_target_rotation = maxium_rotation
-				is_switch_snapping = true
+			var percentage: float
+			if rotate_on_x:
+				percentage = (object_ref.rotation.x - starting_rotation) / (maxium_rotation - starting_rotation)
+				
+				if turn_on_if_zero_one_switch:
+					if percentage < 0.5:
+						switch_target_rotation = starting_rotation
+						is_switch_snapping = true
+					elif percentage > 0.5:
+						switch_target_rotation = maxium_rotation
+						is_switch_snapping = true
+				else:
+					if percentage < 0.2:
+						switch_target_rotation = starting_rotation
+						is_switch_snapping = true
+					elif percentage > 0.8:
+						switch_target_rotation = maxium_rotation
+						is_switch_snapping = true
+				
+			else:
+				percentage = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+				if percentage < 0.2:
+					switch_target_rotation = starting_rotation
+					is_switch_snapping = true
+				elif percentage > 0.8:
+					switch_target_rotation = maxium_rotation
+					is_switch_snapping = true
+			
 		InteractionType.WHEEL:
 				has_stopped_wheel_interact = true
 				if primary_audio_player.playing :
@@ -289,15 +327,26 @@ func _input(event: InputEvent) -> void:
 					
 					door_pivot_point.rotation.y = clamp(door_pivot_point.rotation.y, starting_rotation, maxium_rotation)
 			InteractionType.SWITCH:
+				var percentage: float
 				if event is InputEventMouseMotion:
-					var prev_angle = object_ref.rotation.z
+					if rotate_on_x:
+						var prev_angle = object_ref.rotation.x
+						if turn_on_if_zero_one_switch:
+							object_ref.rotate_x(event.relative.y * object_sensitivity)
+						else:
+							object_ref.rotate_x(-event.relative.y * object_sensitivity)
+						object_ref.rotation.x = clamp(object_ref.rotation.x, starting_rotation, maxium_rotation)
+						percentage = (object_ref.rotation.x - starting_rotation) / (maxium_rotation - starting_rotation)
+						if abs(object_ref.rotation.x - prev_angle) > 0.01:
+							switch_moved = true
+					else:
+						var prev_angle = object_ref.rotation.z
+						object_ref.rotate_z(event.relative.y * object_sensitivity)
+						object_ref.rotation.z = clamp(object_ref.rotation.z, starting_rotation, maxium_rotation)
+						percentage = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+						if abs(object_ref.rotation.z - prev_angle) > 0.01:
+							switch_moved = true
 					
-					object_ref.rotate_z(event.relative.y * object_sensitivity)
-					object_ref.rotation.z = clamp(object_ref.rotation.z, starting_rotation, maxium_rotation)
-					var percentage: float = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
-					
-					if abs(object_ref.rotation.z - prev_angle) > 0.01:
-						switch_moved = true
 					notify_nodes(percentage)
 			InteractionType.WHEEL:
 				if event is InputEventMouseMotion:
@@ -317,6 +366,7 @@ func _input(event: InputEvent) -> void:
 					wheel_rotation = clamp(wheel_rotation, min_wheel_rotation, max_wheel_rotation)
 					
 					notify_nodes(percentage)
+
 
 func _default_interact() -> void:
 	var object_current_position: Vector3 = object_ref.global_transform.origin
@@ -403,12 +453,19 @@ func update_door_sounds() -> void:
 		door_open = false
 
 func update_switch_sounds() -> void:
-	if switch_moved:
-		if abs(object_ref.rotation.z - maxium_rotation) < 0.01 or abs(object_ref.rotation.z - starting_rotation) < 0.01:
-			if primary_audio_player and switch_flip_se:
-				primary_audio_player.volume_db = volume_primary_audio_player
-				primary_audio_player.play()
-			switch_moved = false
+	if !is_switch_snapping:
+		if switch_moved and rotate_on_x:
+			if abs(object_ref.rotation.x - maxium_rotation) < 0.01 or abs(object_ref.rotation.x - starting_rotation) < 0.01:
+				if primary_audio_player and switch_flip_se:
+					primary_audio_player.volume_db = volume_primary_audio_player
+					primary_audio_player.play()
+				switch_moved = false
+		elif switch_moved and !rotate_on_x:
+			if abs(object_ref.rotation.z - maxium_rotation) < 0.01 or abs(object_ref.rotation.z - starting_rotation) < 0.01:
+				if primary_audio_player and switch_flip_se:
+					primary_audio_player.volume_db = volume_primary_audio_player
+					primary_audio_player.play()
+				switch_moved = false
 
 func update_wheel_sounds() -> void:
 	var current_angle = rad_to_deg(object_ref.rotation.z)

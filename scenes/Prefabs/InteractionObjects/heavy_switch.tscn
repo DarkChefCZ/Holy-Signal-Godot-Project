@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://c33d2h1efth8u"]
+
+[ext_resource type="PackedScene" uid="uid://ffmdbok5pm2c" path="res://assets/models/big_switch.gltf" id="1_auc3u"]
+[ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="2_aqot8"]
+[ext_resource type="AudioStream" uid="uid://cjmei5kgmonad" path="res://assets/sounds/SwitchSounds/SwitchFlip.ogg" id="3_r0qwu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p1iqm"]
+size = Vector3(0.13254547, 0.22972107, 0.039001465)
+
+[node name="HeavySwitch" type="Node3D"]
+transform = Transform3D(-0.99999994, -8.742278e-08, 4.3711385e-08, 4.3711385e-08, 1.9106855e-15, 0.99999994, -8.742277e-08, 1, 1.9106853e-15, 0, 0, 0)
+
+[node name="Switch" type="StaticBody3D" parent="."]
+
+[node name="blockbench_export" parent="Switch" instance=ExtResource("1_auc3u")]
+transform = Transform3D(0.14999999, 0, 0, 0, 0.14999999, 0, 0, 0, 0.14999999, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Switch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00023269653, 0.12908173, -9.1552734e-05)
+shape = SubResource("BoxShape3D_p1iqm")
+
+[node name="InteractionComponent" parent="Switch" node_paths=PackedStringArray("object_ref") instance=ExtResource("2_aqot8")]
+object_ref = NodePath("..")
+interaction_type = 2
+maxium_rotation = 140.0
+rotate_on_x = true
+switch_flip_se = ExtResource("3_r0qwu")
