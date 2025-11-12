@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://csajl22h5k625"]
 
-[ext_resource type="PackedScene" uid="uid://bisbb367ny6w1" path="res://assets/models/medium_wave_wheel.gltf" id="1_xyoej"]
+[ext_resource type="PackedScene" uid="uid://bisbb367ny6w1" path="res://assets/models/InteractionComponentsModels/medium_wave_wheel.gltf" id="1_xyoej"]
 [ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="2_gcbk1"]
 [ext_resource type="AudioStream" uid="uid://b0bhr8xibvuqv" path="res://assets/sounds/WheelSounds/medium_valve_turning.ogg" id="3_4quy1"]
 

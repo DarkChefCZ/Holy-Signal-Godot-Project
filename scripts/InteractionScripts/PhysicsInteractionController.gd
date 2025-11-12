@@ -9,7 +9,6 @@ extends Node
 
 # Note onready
 @onready var note_hand: Marker3D = %NoteHand
-@onready var note_storage: Node3D = $"../../TestNoteStorage"
 @onready var note_text_overlay: Control = %NoteTextOverlay
 @onready var note_content_display: RichTextLabel = %NoteContentDisplay
 
@@ -29,6 +28,7 @@ var interaction_component: Node
 var note_og_transform: Transform3D
 var note_og_rotation_x: float
 var is_note_overlay_display: bool = false
+var note_storage: Node3D
 
 
 
@@ -46,6 +46,8 @@ func _ready() -> void:
 	interacting_reticle.position.y = get_viewport().size.y / 2 - interacting_reticle.texture.get_size().y / 2
 
 func _process(_delta: float) -> void:
+	
+	
 	
 	if interaction_component and interaction_component.is_interacting:
 		changeReticle(interacting_reticle)
@@ -140,6 +142,7 @@ var ic: Node
 func _on_note_collected(note: Node3D) -> void:
 	note_og_transform = note.transform
 	note_og_rotation_x = note.rotation_degrees.x
+	note_storage = note.get_parent()
 	note.get_parent().remove_child(note)
 	note_hand.add_child(note)
 	note.transform.origin = note_hand.transform.origin

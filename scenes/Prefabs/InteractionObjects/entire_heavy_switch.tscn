@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://corw1bm4vi6uw"]
 
 [ext_resource type="PackedScene" uid="uid://c33d2h1efth8u" path="res://scenes/Prefabs/InteractionObjects/heavy_switch.tscn" id="1_hvgjc"]
-[ext_resource type="PackedScene" uid="uid://uh140rbd0bal" path="res://assets/models/big_switch_base.gltf" id="2_o5wo1"]
+[ext_resource type="PackedScene" uid="uid://uh140rbd0bal" path="res://assets/models/InteractionComponentsModels/big_switch_base.gltf" id="2_o5wo1"]
 
 [node name="Entire_heavy_switch" type="Node3D"]
 transform = Transform3D(-1, -8.742277e-08, 4.3711385e-08, 4.371139e-08, 1.9106853e-15, 0.9999999, -8.742278e-08, 0.9999999, 1.9106853e-15, 0, 0, 0)

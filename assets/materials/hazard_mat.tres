@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://by58c4eirglv8"]
+
+[ext_resource type="Texture2D" uid="uid://cgk84q0g0s4cr" path="res://assets/textures/floor_warning_rust.png" id="1_s86n6"]
+
+[resource]
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_s86n6")
+uv1_scale = Vector3(2, 2, 2)
+texture_filter = 0

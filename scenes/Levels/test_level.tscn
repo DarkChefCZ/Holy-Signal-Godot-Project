@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bgj76c22s1evx"]
+[gd_scene load_steps=28 format=3 uid="uid://bgj76c22s1evx"]
 
 [ext_resource type="PackedScene" uid="uid://8wuuyqhvgo6v" path="res://scenes/Prefabs/player.tscn" id="1_rvaov"]
 [ext_resource type="PackedScene" uid="uid://d32vyv7fdu8sr" path="res://scenes/Prefabs/TestInteractionObjects/testdoor.tscn" id="2_wa5q0"]
@@ -7,19 +7,21 @@
 [ext_resource type="PackedScene" uid="uid://6ghc7qqy1rq7" path="res://scenes/Prefabs/TestInteractionObjects/testwheel.tscn" id="5_eg032"]
 [ext_resource type="PackedScene" uid="uid://7m30qxnedqom" path="res://scenes/Prefabs/TestInteractionObjects/test_note.tscn" id="6_ka0q3"]
 [ext_resource type="PackedScene" uid="uid://corw1bm4vi6uw" path="res://scenes/Prefabs/InteractionObjects/entire_heavy_switch.tscn" id="6_tilpl"]
-[ext_resource type="PackedScene" uid="uid://dy65u71dskp5a" path="res://assets/models/AntennaOperationPodiumLarge.gltf" id="7_ri4w8"]
-[ext_resource type="PackedScene" uid="uid://c4es4axlhssa3" path="res://assets/models/AntennaOperationPodiumSmall.gltf" id="8_8juaq"]
-[ext_resource type="PackedScene" uid="uid://uh140rbd0bal" path="res://assets/models/big_switch_base.gltf" id="9_3kijf"]
-[ext_resource type="PackedScene" uid="uid://ffmdbok5pm2c" path="res://assets/models/big_switch.gltf" id="10_jvm3s"]
-[ext_resource type="PackedScene" uid="uid://bisbb367ny6w1" path="res://assets/models/medium_wave_wheel.gltf" id="11_tilpl"]
-[ext_resource type="PackedScene" uid="uid://cenawgusjgb2w" path="res://assets/models/panel_display.gltf" id="12_dndow"]
-[ext_resource type="PackedScene" uid="uid://dhylt3f6jbv7b" path="res://assets/models/panel_switch.gltf" id="13_t8d5o"]
-[ext_resource type="PackedScene" uid="uid://bkp103po0hd87" path="res://assets/models/small_wave_wheel.gltf" id="14_3747l"]
-[ext_resource type="PackedScene" uid="uid://cv0iedr2apm6g" path="res://assets/models/padlock.gltf" id="15_3kijf"]
-[ext_resource type="PackedScene" uid="uid://6ikg6afxjfak" path="res://assets/models/locker_panel_box.gltf" id="16_jvm3s"]
+[ext_resource type="PackedScene" uid="uid://dy65u71dskp5a" path="res://assets/models/podiums/AntennaOperationPodiumLarge.gltf" id="7_ri4w8"]
+[ext_resource type="PackedScene" uid="uid://c4es4axlhssa3" path="res://assets/models/podiums/AntennaOperationPodiumSmall.gltf" id="8_8juaq"]
+[ext_resource type="PackedScene" uid="uid://uh140rbd0bal" path="res://assets/models/InteractionComponentsModels/big_switch_base.gltf" id="9_3kijf"]
+[ext_resource type="PackedScene" uid="uid://ffmdbok5pm2c" path="res://assets/models/InteractionComponentsModels/big_switch.gltf" id="10_jvm3s"]
+[ext_resource type="PackedScene" uid="uid://bisbb367ny6w1" path="res://assets/models/InteractionComponentsModels/medium_wave_wheel.gltf" id="11_tilpl"]
+[ext_resource type="PackedScene" uid="uid://cenawgusjgb2w" path="res://assets/models/InteractionComponentsModels/panel_display.gltf" id="12_dndow"]
+[ext_resource type="PackedScene" uid="uid://dhylt3f6jbv7b" path="res://assets/models/InteractionComponentsModels/panel_switch.gltf" id="13_t8d5o"]
+[ext_resource type="PackedScene" uid="uid://bkp103po0hd87" path="res://assets/models/InteractionComponentsModels/small_wave_wheel.gltf" id="14_3747l"]
+[ext_resource type="PackedScene" uid="uid://cv0iedr2apm6g" path="res://assets/models/InteractionComponentsModels/padlock.gltf" id="15_3kijf"]
+[ext_resource type="PackedScene" uid="uid://6ikg6afxjfak" path="res://assets/models/podiums/locker_panel_box.gltf" id="16_jvm3s"]
 [ext_resource type="PackedScene" uid="uid://csajl22h5k625" path="res://scenes/Prefabs/InteractionObjects/medium_valve.tscn" id="17_jvm3s"]
 [ext_resource type="PackedScene" uid="uid://c1ut1akto2ylr" path="res://scenes/Prefabs/InteractionObjects/wave_wheel.tscn" id="19_dndow"]
+[ext_resource type="PackedScene" uid="uid://ddqx2j78t08w0" path="res://assets/models/objects/server_rack.gltf" id="19_wtvw0"]
 [ext_resource type="PackedScene" uid="uid://ccvaaxc8umqje" path="res://scenes/Prefabs/InteractionObjects/zero_one_switch.tscn" id="20_t8d5o"]
+[ext_resource type="PackedScene" uid="uid://c2bodqhsgps08" path="res://assets/models/rapture_angel.gltf" id="21_3747l"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wa5q0"]
 
@@ -45,6 +47,7 @@ size = Vector3(32, 0.001, 32.010742)
 
 [node name="Player" parent="." instance=ExtResource("1_rvaov")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06209209, 1.0613915, -0.036815405)
+CameraMaxLookY = 80
 jump_height = 2.0
 
 [node name="Door" parent="." instance=ExtResource("2_wa5q0")]
@@ -168,6 +171,13 @@ transform = Transform3D(0.018008206, 0.06406922, 0, -0.07280594, 0.015847221, 0,
 
 [node name="blockbench_export10" parent="DemoBlockbenchModels" instance=ExtResource("16_jvm3s")]
 transform = Transform3D(0.5815389, -0.14849086, -0.20907547, -0.005539554, 0.58962154, -0.32221496, 0.2599054, 0.3448157, 0.46093926, 2.1022637, 1.2266486, -10.796082)
+
+[node name="blockbench_export11" parent="DemoBlockbenchModels" instance=ExtResource("21_3747l")]
+transform = Transform3D(1, 0, 0, 0, 0.022914149, 0.99973744, 0, -0.99973744, 0.022914149, -2.429411, 14.320465, -10.581072)
+visible = false
+
+[node name="blockbench_export12" parent="DemoBlockbenchModels" instance=ExtResource("19_wtvw0")]
+transform = Transform3D(-0.5479283, 0, -0.8365253, 0, 1, 0, 0.8365253, 0, -0.5479283, -2.6313643, -0.0008501336, -9.368982)
 
 [node name="MediumValve" parent="." instance=ExtResource("17_jvm3s")]
 transform = Transform3D(-4.3711385e-08, -0.258819, 0.9659257, 0, 0.96592575, 0.258819, -0.9999999, 1.1313339e-08, -4.2221956e-08, -2.0067945, 1.1128657, -4.954219)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c33d2h1efth8u"]
 
-[ext_resource type="PackedScene" uid="uid://ffmdbok5pm2c" path="res://assets/models/big_switch.gltf" id="1_auc3u"]
+[ext_resource type="PackedScene" uid="uid://ffmdbok5pm2c" path="res://assets/models/InteractionComponentsModels/big_switch.gltf" id="1_auc3u"]
 [ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="2_aqot8"]
 [ext_resource type="AudioStream" uid="uid://cjmei5kgmonad" path="res://assets/sounds/SwitchSounds/SwitchFlip.ogg" id="3_r0qwu"]
 

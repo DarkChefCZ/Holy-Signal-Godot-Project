@@ -1,0 +1,110 @@
+[gd_scene load_steps=10 format=3 uid="uid://dplc2ix5nnr8m"]
+
+[ext_resource type="PackedScene" uid="uid://8wuuyqhvgo6v" path="res://scenes/Prefabs/player.tscn" id="1_7rf4f"]
+[ext_resource type="Material" uid="uid://by58c4eirglv8" path="res://assets/materials/hazard_mat.tres" id="1_fv5kg"]
+[ext_resource type="Shader" uid="uid://56t6l55demno" path="res://assets/materials/no_repetition.gdshader" id="2_384xt"]
+[ext_resource type="PackedScene" uid="uid://cuufdpjkgr3n3" path="res://assets/models/door/heavy_duty_door.gltf" id="2_i1o00"]
+[ext_resource type="Texture2D" uid="uid://j4mdl8e2ctmk" path="res://assets/textures/floor_concrete.png" id="3_dstxs"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_384xt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dcom4"]
+render_priority = 0
+shader = ExtResource("2_384xt")
+shader_parameter/texture1_albedo = ExtResource("3_dstxs")
+shader_parameter/texture2_albedo = ExtResource("3_dstxs")
+shader_parameter/texture_scale = 10.0
+shader_parameter/noise_scale = 2.50000011549012
+shader_parameter/blend_sharpness = 5.0
+shader_parameter/uv_rotation = 0.0
+shader_parameter/tile_offset = 2.0
+shader_parameter/hash_multiplier = 0.1031
+shader_parameter/hash_offset = 33.33
+shader_parameter/noise_frequency_1 = 1.618
+shader_parameter/noise_frequency_2 = 2.414
+shader_parameter/noise_frequency_3 = 3.141
+shader_parameter/noise_strength_1 = 0.15
+shader_parameter/noise_strength_2 = 0.12
+shader_parameter/noise_strength_3 = 0.09
+shader_parameter/fbm_frequency_multiplier = 2.07
+shader_parameter/blend_threshold_low = 0.2
+shader_parameter/blend_threshold_high = 0.8
+shader_parameter/smoothing_intensity_1 = 0.02
+shader_parameter/smoothing_intensity_2 = 0.05
+shader_parameter/smoothing_intensity_3 = 0.1
+shader_parameter/weight_threshold = 0.001
+shader_parameter/weight_epsilon = 0.001
+shader_parameter/default_albedo = 0.5
+shader_parameter/default_roughness = 1.0
+shader_parameter/default_ao = 1.0
+shader_parameter/default_threshold = 0.1
+shader_parameter/texture_size_threshold = 4
+shader_parameter/tile_noise_scale_1 = 0.003
+shader_parameter/tile_noise_scale_2 = 0.007
+shader_parameter/tile_noise_scale_3 = 0.011
+shader_parameter/tile_randomness_range = 16.0
+shader_parameter/depth_scale = 0.1
+shader_parameter/hash_prime_1 = 12.9898
+shader_parameter/hash_prime_2 = 78.233
+shader_parameter/hash_offset_1 = 43758.547
+shader_parameter/hash_offset_2 = 28001.838
+shader_parameter/extra_hash_prime_1 = 7.13
+shader_parameter/extra_hash_prime_2 = 11.17
+shader_parameter/extra_hash_offset_1 = 127.1
+shader_parameter/extra_hash_offset_2 = 311.7
+shader_parameter/tile_sample_offset_1 = Vector2(0.31, 0.47)
+shader_parameter/tile_sample_offset_2 = Vector2(0.73, 0.19)
+shader_parameter/blend_smoothstep_low = 0.1
+shader_parameter/blend_smoothstep_high = 0.9
+shader_parameter/blend_variation_factor = 0.15
+shader_parameter/extra_offset_multiplier = 0.5
+shader_parameter/domain_warp_freq_1 = 1.3
+shader_parameter/domain_warp_freq_2 = 1.7
+shader_parameter/domain_warp_freq_3 = 2.1
+shader_parameter/domain_warp_freq_4 = 2.3
+shader_parameter/domain_warp_freq_5 = 4.7
+shader_parameter/domain_warp_freq_6 = 5.1
+shader_parameter/domain_warp_strength_2 = 0.6
+shader_parameter/domain_warp_strength_3 = 0.3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fv5kg"]
+size = Vector3(2, 0.5004883, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i1o00"]
+size = Vector3(1.7001953, 1.6981201, 0.055603027)
+
+[node name="MainScene" type="Node3D"]
+
+[node name="floors" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+use_collision = true
+size = Vector3(3, 0.001, 2)
+material = ExtResource("1_fv5kg")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="floors"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floors/StaticBody3D"]
+transform = Transform3D(9, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, -10.445333)
+mesh = SubResource("PlaneMesh_384xt")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_dcom4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floors/StaticBody3D"]
+transform = Transform3D(9, 0, 0, 0, 1, 0, 0, 0, 10, 0, -0.24975586, -10.445333)
+shape = SubResource("BoxShape3D_fv5kg")
+
+[node name="Player" parent="." instance=ExtResource("1_7rf4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06209209, 1.0613915, -0.036815405)
+CameraMaxLookY = 80
+jump_height = 2.0
+
+[node name="Enterence_door" type="StaticBody3D" parent="."]
+
+[node name="heavy_duty_door" parent="Enterence_door" instance=ExtResource("2_i1o00")]
+transform = Transform3D(0.85, 0, 0, 0, 1.069067, 0, 0, 0, 0.85, 0, 0, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enterence_door"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8475952, 1.0269518)
+shape = SubResource("BoxShape3D_i1o00")
