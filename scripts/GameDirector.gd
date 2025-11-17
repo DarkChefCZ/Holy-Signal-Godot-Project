@@ -21,19 +21,29 @@ var time: float
 
 @export_group("SecondPanelLighting+Objects")
 @export var secondControlPanelHighlight: Node3D
+@export var SwitchLockIn2: Node3D
 @export var ObjectsToDisableGroup: Node3D
+@export var Sound2Trigger: Area3D
+@export var Sound2MetalStream: AudioStreamPlayer3D
+@export var Panel_Screen_Symbols: Node3D
+@export var IndicationLight2: OmniLight3D
+@export var SecondPanelVoice: AudioStreamWAV
+
+var icontrol: Node
 
 var ic1: Node
-var icontrol: Node
 var freq_here: float = 0.0
 var amp_here: float = 0.0
 var resetting_switch: bool = false
 var LightChildren1
 
 var LightChildren2
+var ic2
 var secondPanelInteractionObjects
+var secondPanelSymbols
 
-var firstPanelComplete: bool = false
+signal firstPanelComplete
+signal secondPanelComplete
 
 func _ready() -> void:
 	ic1 = SwitchLockIn1.find_child("InteractionComponent", true, true)
@@ -50,9 +60,14 @@ func _ready() -> void:
 	for light in LightChildren2:
 			light.visible = false
 	
+	ic2 = SwitchLockIn2.find_child("InteractionComponent", true, true)
+	ic2.can_interact = false
 	secondPanelInteractionObjects = ObjectsToDisableGroup.find_children("zero_one_switch*", "Node3D", true, true)
 	for object in secondPanelInteractionObjects:
 		object.find_child("InteractionComponent", true, true).can_interact = false
+	Sound2Trigger.monitoring = false
+	
+	secondPanelSymbols = Panel_Screen_Symbols.find_children("*", "TextureRect", true, true)
 
 func _process(delta: float) -> void:
 	if resetting_switch == true:
@@ -64,13 +79,18 @@ func _process(delta: float) -> void:
 			ic1.object_ref.rotation.z = lerp_angle(ic1.object_ref.rotation.z, ic1.starting_rotation, delta * ic1.switch_lerp_speed)
 			if abs(ic1.object_ref.rotation.z - ic1.starting_rotation) < 0.01:
 				resetting_switch = false
+		
+		if ic2.rotate_on_x == true:
+			ic2.object_ref.rotation.x = lerp_angle(ic2.object_ref.rotation.x, ic2.starting_rotation, delta * ic2.switch_lerp_speed)
+			if abs(ic2.object_ref.rotation.x - ic2.starting_rotation) < 0.01:
+				resetting_switch = false
+		else:
+			ic2.object_ref.rotation.z = lerp_angle(ic2.object_ref.rotation.z, ic2.starting_rotation, delta * ic2.switch_lerp_speed)
+			if abs(ic2.object_ref.rotation.z - ic2.starting_rotation) < 0.01:
+				resetting_switch = false
 	
 	
-	if firstPanelComplete == true and ic1.can_interact == false and ic1.is_switch_snapping == false:
-		await get_tree().create_timer(0.2).timeout
-		intercom.stream = FirstPanelVoice
-		intercom.playing = true
-		firstPanelComplete = false
+	
 
 func _on_panel_0_trigger_area_body_entered(body: Node3D) -> void:
 	if body is CharacterBody3D:
@@ -104,9 +124,26 @@ func execute(percentage, switchType) -> void:
 					node.find_child("InteractionComponent", true, false).is_interacting = false
 				icontrol.changeReticle(icontrol.default_reticle)
 				IndicationLight.light_color = Color("#0a6100")
-				firstPanelComplete = true
+				emit_signal("firstPanelComplete")
 			else:
 				if ic1.is_interacting == false and ic1.is_switch_snapping == false:
+					resetting_switch = true
+	elif switchType == "SecondPanel":
+		if percentage > 0.99:
+			var symbols_on:Array[String] = []
+			for symbol in secondPanelSymbols:
+				if symbol.visible == true:
+					symbols_on.append(symbol.name)
+			if "ArrowUp" in symbols_on and "TriangleDown" in symbols_on and "ArrowsCenter" in symbols_on:
+				for object in secondPanelInteractionObjects:
+					object.find_child("InteractionComponent", true, true).is_interacting = false
+					object.find_child("InteractionComponent", true, true).can_interact = false
+				ic2.can_interact = false
+				icontrol.changeReticle(icontrol.default_reticle)
+				IndicationLight2.light_color = Color("#0a6100")
+				emit_signal("secondPanelComplete")
+			else:
+				if ic2.is_interacting == false and ic2.is_switch_snapping == false:
 					resetting_switch = true
 
 func _on_calculation_node_1_sin_amp(amp: float) -> void:
@@ -123,3 +160,29 @@ func _on_intercom_finished() -> void:
 		for light in LightChildren2:
 			light.visible = true
 		secondControlPanelHighlight.find_child("AudioStreamPlayer3D", true, false).playing = true
+		Sound2Trigger.monitoring = true
+	elif intercom.stream == SecondPanelVoice:
+		print("I am the best")
+
+
+func _on_first_panel_complete() -> void:
+	if ic1.can_interact == false and ic1.is_switch_snapping == false:
+		await get_tree().create_timer(0.2).timeout
+		intercom.stream = FirstPanelVoice
+		intercom.playing = true
+		for object in secondPanelInteractionObjects:
+			object.find_child("InteractionComponent", true, true).can_interact = true
+		ic2.can_interact = true
+
+
+func _on_sound_2_trigger_area_body_entered(body: Node3D) -> void:
+	if body is CharacterBody3D:
+		Sound2MetalStream.playing = true
+		Sound2Trigger.queue_free()
+
+
+func _on_second_panel_complete() -> void:
+	await get_tree().create_timer(0.2).timeout
+	intercom.stream = SecondPanelVoice
+	intercom.playing = true
+	#ic3.can_interact = true

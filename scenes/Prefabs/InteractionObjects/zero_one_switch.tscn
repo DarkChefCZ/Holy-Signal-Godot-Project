@@ -8,15 +8,15 @@
 size = Vector3(0.060676575, 0.056533813, 0.13293457)
 
 [node name="zero_one_switch" type="Node3D"]
+transform = Transform3D(-1, -8.742278e-08, 3.821371e-15, 0, -4.371139e-08, -1, 8.742278e-08, -1, 4.371139e-08, 0, 0, 0)
 
 [node name="true_false_switch" type="StaticBody3D" parent="."]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.3007058, 1.3144268e-08, -0.95371693, 0.95371693, -4.1688292e-08, -0.3007058, 0, 0, 0)
 
 [node name="blockbench_export" parent="true_false_switch" instance=ExtResource("1_25ohm")]
-transform = Transform3D(-6.5567085e-09, 0.15, -6.5567085e-09, 0, -6.5567085e-09, -0.15, -0.15, -6.5567085e-09, 2.8660284e-16, 0, 0, 0)
+transform = Transform3D(6.556708e-09, 5.7320567e-16, -0.15, 1.3113416e-08, -0.15, 0, -0.14999999, -1.3113417e-08, -6.5567085e-09, 0, 0, -5.613416e-10)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="true_false_switch"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025760643, -5.340689e-05, -0.00030517692)
+transform = Transform3D(-0.04044566, 0.99918175, -4.367562e-08, -0.99918175, -0.04044566, 0, -1.7664892e-09, 4.3639883e-08, 1, 0, 0, -0.00030517636)
 shape = SubResource("BoxShape3D_25ohm")
 
 [node name="InteractionComponent" parent="true_false_switch" node_paths=PackedStringArray("object_ref") instance=ExtResource("2_tix0x")]
@@ -25,5 +25,5 @@ interaction_type = 2
 volume_primary_audio_player = 0.0
 maxium_rotation = 35.0
 rotate_on_x = true
-turn_on_if_zero_one_switch = true
+nodes_that_switch_affects = Array[String](["CalculationNode2"])
 switch_flip_se = ExtResource("3_pu7to")

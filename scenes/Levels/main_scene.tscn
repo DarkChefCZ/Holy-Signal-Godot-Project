@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://dplc2ix5nnr8m"]
+[gd_scene load_steps=81 format=3 uid="uid://dplc2ix5nnr8m"]
 
 [ext_resource type="PackedScene" uid="uid://8wuuyqhvgo6v" path="res://scenes/Prefabs/player.tscn" id="1_7rf4f"]
 [ext_resource type="Material" uid="uid://by58c4eirglv8" path="res://assets/materials/hazard_mat.tres" id="1_fv5kg"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bs5hhakyd7ky7" path="res://assets/models/objects/wooden_cross.gltf" id="2_dstxs"]
 [ext_resource type="Material" uid="uid://cdsvia4n006o8" path="res://assets/materials/concrete.tres" id="2_fv5kg"]
 [ext_resource type="PackedScene" uid="uid://cuufdpjkgr3n3" path="res://assets/models/door/heavy_duty_door.gltf" id="2_i1o00"]
+[ext_resource type="AudioStream" uid="uid://ddf8p58c8dj1w" path="res://assets/sounds/VoiceLines/SecondPanelDone.wav" id="3_5wjog"]
 [ext_resource type="Texture2D" uid="uid://j4mdl8e2ctmk" path="res://assets/textures/floor_concrete.png" id="3_dstxs"]
 [ext_resource type="PackedScene" uid="uid://cqc0wxfv1ifel" path="res://scenes/Prefabs/weak_light_prefab.tscn" id="3_lm6eo"]
 [ext_resource type="VoxelGIData" uid="uid://bvfx1ii6c84gi" path="res://BakingLights/main_scene.VoxelGI_data.res" id="4_5i8k7"]
@@ -34,6 +35,20 @@
 [ext_resource type="PackedScene" uid="uid://dwumikv7rle3l" path="res://scenes/Prefabs/panel_screen_Sin_display.tscn" id="32_pcg2w"]
 [ext_resource type="Script" uid="uid://dsspkj630vune" path="res://scripts/panel_screen_calc.gd" id="32_xc1v6"]
 [ext_resource type="PackedScene" uid="uid://ccvaaxc8umqje" path="res://scenes/Prefabs/InteractionObjects/zero_one_switch.tscn" id="34_j4muj"]
+[ext_resource type="AudioStream" uid="uid://dtlgdftcgts0a" path="res://assets/sounds/metalImpact.ogg" id="35_htquf"]
+[ext_resource type="Texture2D" uid="uid://csvki3o2wrcfq" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolArrowDownPanel.png" id="35_k7cjl"]
+[ext_resource type="Texture2D" uid="uid://b6iulsx7lufmh" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolArrowLeftPanel.png" id="36_xunbr"]
+[ext_resource type="Texture2D" uid="uid://nxxbfexexhev" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolArrowRightPanel.png" id="37_y3gok"]
+[ext_resource type="Texture2D" uid="uid://64ilnfwx32mi" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolArrowUpPanel.png" id="38_qp1nw"]
+[ext_resource type="Texture2D" uid="uid://ddo8pod0f44t7" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolCrossPanel.png" id="39_5wjog"]
+[ext_resource type="Texture2D" uid="uid://cxxj65byun0s4" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolArrowsCenterPanel.png" id="40_py2vy"]
+[ext_resource type="Texture2D" uid="uid://f2jp7ymxw4fa" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolArrowsOuterPanel.png" id="41_38r08"]
+[ext_resource type="Texture2D" uid="uid://cudyy1c3u7nay" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolTriangleDownPanel.png" id="42_qtam3"]
+[ext_resource type="Texture2D" uid="uid://xj5nuxidm1qb" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolTriangleUpPanel.png" id="43_eakkq"]
+[ext_resource type="Texture2D" uid="uid://bp1tjman0hv2x" path="res://assets/textures/WaveSymbols/Panel/WaveSymbolPlusPanel.png" id="44_yw4ww"]
+[ext_resource type="Script" uid="uid://pf2i8n56qely" path="res://scripts/panel_screen_symbols_show.gd" id="46_qp1nw"]
+[ext_resource type="PackedScene" uid="uid://bherio0jq6056" path="res://scenes/Prefabs/panel_screen_symbols.tscn" id="46_xunbr"]
+[ext_resource type="Script" uid="uid://fw2edfiebtr1" path="res://scenes/Levels/wave_symbol_switch_calc.gd" id="46_y3gok"]
 
 [sub_resource type="Environment" id="Environment_ahxxq"]
 background_energy_multiplier = 0.0
@@ -161,12 +176,57 @@ size = Vector3(0.2855835, 0.11035156, 0.40820313)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eowjx"]
 albedo_texture = ExtResource("25_lnnwg")
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_qbhkv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7gjtc"]
+transparency = 1
+albedo_texture = ExtResource("35_k7cjl")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rc7ik"]
+transparency = 1
+albedo_texture = ExtResource("36_xunbr")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7v623"]
+transparency = 1
+albedo_texture = ExtResource("37_y3gok")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fm3vu"]
+transparency = 1
+albedo_texture = ExtResource("38_qp1nw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6fbjj"]
+transparency = 1
+albedo_texture = ExtResource("39_5wjog")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5eubh"]
+transparency = 1
+albedo_texture = ExtResource("40_py2vy")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l22ur"]
+transparency = 1
+albedo_texture = ExtResource("41_38r08")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0dmpi"]
+transparency = 1
+albedo_texture = ExtResource("42_qtam3")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ohami"]
+transparency = 1
+albedo_texture = ExtResource("43_eakkq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ukx4t"]
+transparency = 1
+albedo_texture = ExtResource("44_yw4ww")
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_xc1v6"]
 size = Vector3(13.373047, 2.2905884, 1.2011719)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ruomk"]
+size = Vector3(4.1567383, 1.9385986, 1)
+
 [node name="MainScene" type="Node3D"]
 
-[node name="GameDirectorNode" type="Node" parent="." node_paths=PackedStringArray("player", "intercom", "crossHighlight", "originalHighlight", "zeroControlPanelArea", "preControlPanelHighlight", "Speakers", "firstControlPanelArea", "firstControlPanelHighlight", "SwitchLockIn1", "ObjectsToDisable", "IndicationLight", "secondControlPanelHighlight", "ObjectsToDisableGroup")]
+[node name="GameDirectorNode" type="Node" parent="." node_paths=PackedStringArray("player", "intercom", "crossHighlight", "originalHighlight", "zeroControlPanelArea", "preControlPanelHighlight", "Speakers", "firstControlPanelArea", "firstControlPanelHighlight", "SwitchLockIn1", "ObjectsToDisable", "IndicationLight", "secondControlPanelHighlight", "SwitchLockIn2", "ObjectsToDisableGroup", "Sound2Trigger", "Sound2MetalStream", "Panel_Screen_Symbols", "IndicationLight2")]
 script = ExtResource("30_nds67")
 player = NodePath("../Player")
 intercom = NodePath("../Intercom")
@@ -182,7 +242,13 @@ ObjectsToDisable = [NodePath("../ControlPanel1/SinFreqValve"), NodePath("../Cont
 IndicationLight = NodePath("../ControlPanel1/ControlPanelPodiumLarge/OmniLight3D")
 FirstPanelVoice = ExtResource("31_nds67")
 secondControlPanelHighlight = NodePath("../WorldLigh&Env/WeakLightPanel2")
+SwitchLockIn2 = NodePath("../ControlPanel2/LockInPanel2")
 ObjectsToDisableGroup = NodePath("../ControlPanel2/switches")
+Sound2Trigger = NodePath("../Triggers/Sound2TriggerArea")
+Sound2MetalStream = NodePath("../Triggers/TriggerSound2")
+Panel_Screen_Symbols = NodePath("../ControlPanel2/panel_screen_symbols")
+IndicationLight2 = NodePath("../ControlPanel2/ControlPanelPodiumLarge2/OmniLight3D2")
+SecondPanelVoice = ExtResource("3_5wjog")
 
 [node name="WorldLigh&Env" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15.6593895)
@@ -818,29 +884,132 @@ omni_range = 0.138
 
 [node name="switches" type="Node3D" parent="ControlPanel2"]
 
-[node name="zero_one_switch" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
-transform = Transform3D(0.3552185, 0.6305603, -0.69008243, 0.012709707, 0.73490095, 0.6780554, 0.93469685, -0.24962841, 0.2530361, -0.2124877, 1.840106, -1.8515434)
+[node name="zero_one_switch_ArrowDown" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, -0.2124877, 1.840106, -1.8515434)
+
+[node name="zero_one_switch_ArrowLeft" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, -0.13030148, 1.84, -1.6420002)
+
+[node name="zero_one_switch_ArrowRight" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, -0.058451176, 1.84, -1.4462147)
+
+[node name="zero_one_switch_ArrowUp" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, 0.010431051, 1.84, -1.279871)
+
+[node name="zero_one_switch_Cross" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, 0.075867176, 1.84, -1.1024551)
+
+[node name="zero_one_switch_ArrowsCenter" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, -0.4531312, 1.6436145, -1.7790108)
+
+[node name="zero_one_switch_ArrowsOuter" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, -0.3709445, 1.6435086, -1.5694675)
+
+[node name="zero_one_switch_TriangleDown" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, -0.29909468, 1.6435086, -1.373682)
+
+[node name="zero_one_switch_TriangleUp" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, -0.23021221, 1.6435086, -1.2073383)
+
+[node name="zero_one_switch_Plus" parent="ControlPanel2/switches" instance=ExtResource("34_j4muj")]
+transform = Transform3D(-0.34202006, 0.60402274, -0.7198463, -6.6969726e-08, -0.7660443, -0.6427876, -0.9396925, -0.21984619, 0.26200265, -0.16477633, 1.6435086, -1.0299225)
+
+[node name="PanelWaveSymbols" type="Node3D" parent="ControlPanel2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8629905, -1.1897659)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, -0.13842583, 0.055265427, -0.68166924)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_7gjtc")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, -0.062860966, 0.055265427, -0.48611832)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_rc7ik")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, 0.011129141, 0.055265427, -0.29661942)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_7v623")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, 0.07468629, 0.055265427, -0.12742424)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_fm3vu")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, 0.14316392, 0.055265427, 0.05762863)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_6fbjj")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, -0.36035252, -0.12839234, -0.6171875)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_5eubh")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, -0.27660465, -0.12627661, -0.42163658)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_l22ur")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, -0.21180344, -0.13146293, -0.22552872)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_0dmpi")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, -0.14389324, -0.13533115, -0.04286766)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_ohami")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="ControlPanel2/PanelWaveSymbols"]
+transform = Transform3D(0.01784436, -0.029073497, -0.036555585, -0.00049066264, 0.03901372, -0.031268027, 0.0467048, 0.011517884, 0.013638189, -0.07546806, -0.13093412, 0.12211037)
+mesh = SubResource("PlaneMesh_qbhkv")
+surface_material_override/0 = SubResource("StandardMaterial3D_ukx4t")
+
+[node name="panel_screen_symbols" parent="ControlPanel2" instance=ExtResource("46_xunbr")]
+transform = Transform3D(0.21311146, -0.19433166, 0.08257543, 0.20213987, 0.22167423, 0, -0.061016154, 0.055639293, 0.28841165, 0.16296291, 1.76982, -0.6114807)
+script = ExtResource("46_qp1nw")
+
+[node name="LockInPanel2" parent="ControlPanel2" instance=ExtResource("30_g7hd8")]
+transform = Transform3D(-0.2756374, -0.60494137, 0.74704057, 0, 0.7771457, 0.6293203, -0.9612618, 0.17346416, -0.21421044, 0.2916484, 1.786, -0.13637924)
+
+[node name="CalculationNode2" type="Node" parent="ControlPanel2"]
+script = ExtResource("46_y3gok")
 
 [node name="ControlPanel3" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25.727695)
 
 [node name="Triggers" type="Node3D" parent="."]
 
+[node name="Panel0TriggerArea" type="Area3D" parent="Triggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12.034467)
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/Panel0TriggerArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0773565, 0.10058594)
+shape = SubResource("BoxShape3D_xc1v6")
+
 [node name="Panel1TriggerArea" type="Area3D" parent="Triggers"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23.787228)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -22.801565)
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/Panel1TriggerArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0773565, 0.10058594)
 shape = SubResource("BoxShape3D_xc1v6")
 
-[node name="Panel0TriggerArea" type="Area3D" parent="Triggers"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12.726035)
+[node name="Sound2TriggerArea" type="Area3D" parent="Triggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5883417, 1.0732526, -26.915897)
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/Panel0TriggerArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0773565, 0.10058594)
-shape = SubResource("BoxShape3D_xc1v6")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Triggers/Sound2TriggerArea"]
+transform = Transform3D(0.333231, 0, -0.9428452, 0, 1, 0, 0.9428452, 0, 0.333231, -1.2136779, 0.31500244, -2.565754)
+shape = SubResource("BoxShape3D_ruomk")
+
+[node name="TriggerSound2" type="AudioStreamPlayer3D" parent="Triggers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1442518, 2.1626868, -32.880928)
+stream = ExtResource("35_htquf")
+volume_db = -14.0
 
 [node name="Intercom" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.422856, -20.075417)
@@ -850,10 +1019,15 @@ pitch_scale = 0.95
 max_distance = 750.0
 bus = &"IntercomReverb"
 
+[connection signal="firstPanelComplete" from="GameDirectorNode" to="GameDirectorNode" method="_on_first_panel_complete"]
+[connection signal="secondPanelComplete" from="GameDirectorNode" to="GameDirectorNode" method="_on_second_panel_complete"]
 [connection signal="SinAmp" from="ControlPanel1/CalculationNode1" to="GameDirectorNode" method="_on_calculation_node_1_sin_amp"]
 [connection signal="SinAmp" from="ControlPanel1/CalculationNode1" to="ControlPanel1/SinViewPanel" method="_on_calculation_node_1_sin_amp"]
 [connection signal="SinFreq" from="ControlPanel1/CalculationNode1" to="GameDirectorNode" method="_on_calculation_node_1_sin_freq"]
 [connection signal="SinFreq" from="ControlPanel1/CalculationNode1" to="ControlPanel1/SinViewPanel" method="_on_calculation_node_1_sin_freq"]
-[connection signal="body_entered" from="Triggers/Panel1TriggerArea" to="GameDirectorNode" method="_on_panel_1_trigger_area_body_entered"]
+[connection signal="off_symbol" from="ControlPanel2/CalculationNode2" to="ControlPanel2/panel_screen_symbols" method="_on_calculation_node_2_off_symbol"]
+[connection signal="on_symbol" from="ControlPanel2/CalculationNode2" to="ControlPanel2/panel_screen_symbols" method="_on_calculation_node_2_on_symbol"]
 [connection signal="body_entered" from="Triggers/Panel0TriggerArea" to="GameDirectorNode" method="_on_panel_0_trigger_area_body_entered"]
+[connection signal="body_entered" from="Triggers/Panel1TriggerArea" to="GameDirectorNode" method="_on_panel_1_trigger_area_body_entered"]
+[connection signal="body_entered" from="Triggers/Sound2TriggerArea" to="GameDirectorNode" method="_on_sound_2_trigger_area_body_entered"]
 [connection signal="finished" from="Intercom" to="GameDirectorNode" method="_on_intercom_finished"]

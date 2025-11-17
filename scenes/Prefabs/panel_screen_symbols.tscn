@@ -1,0 +1,202 @@
+[gd_scene load_steps=16 format=3 uid="uid://bherio0jq6056"]
+
+[ext_resource type="PackedScene" uid="uid://cenawgusjgb2w" path="res://assets/models/InteractionComponentsModels/panel_display.gltf" id="1_xnshb"]
+[ext_resource type="Texture2D" uid="uid://bus0xxe5men4g" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolArrowUpScreen.png" id="2_4rcxs"]
+[ext_resource type="Texture2D" uid="uid://da2bc7svxumrx" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolArrowDownScreen.png" id="2_dp0pp"]
+[ext_resource type="Texture2D" uid="uid://drpwxc5vfqrmx" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolArrowsCenterScreen.png" id="3_4rcxs"]
+[ext_resource type="Texture2D" uid="uid://du2y5fsru3fgr" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolTriangleDownScreen.png" id="4_67yxi"]
+[ext_resource type="Texture2D" uid="uid://dm6s3lybg548x" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolArrowLeftScreen.png" id="4_nw245"]
+[ext_resource type="Texture2D" uid="uid://c28svktlxy8q8" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolArrowRightScreen.png" id="5_t68u1"]
+[ext_resource type="Texture2D" uid="uid://dpfj1aw1kon7p" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolTriangleUpScreen.png" id="7_xoe63"]
+[ext_resource type="Texture2D" uid="uid://cptbar6bg13h1" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolArrowsOuterScreen.png" id="8_sgq0g"]
+[ext_resource type="Texture2D" uid="uid://dwf850erdta35" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolCrossScreen.png" id="9_mb51l"]
+[ext_resource type="Texture2D" uid="uid://b8t8oe52tfsbm" path="res://assets/textures/WaveSymbols/Screen/WaveSymbolPlusScreen.png" id="10_sgq0g"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_xnshb"]
+viewport_path = NodePath("blockbench_export/SubViewportSymbol")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dp0pp"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_xnshb")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dp0pp"]
+size = Vector2(1.65, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u0w2l"]
+size = Vector3(1.748291, 0.18920898, 1)
+
+[node name="panel_screen_symbols" type="StaticBody3D"]
+
+[node name="blockbench_export" parent="." instance=ExtResource("1_xnshb")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="blockbench_export"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13049671, 0)
+material_override = SubResource("StandardMaterial3D_dp0pp")
+mesh = SubResource("PlaneMesh_dp0pp")
+
+[node name="SubViewportSymbol" type="SubViewport" parent="blockbench_export"]
+size = Vector2i(640, 360)
+
+[node name="ArrowUp" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 60.0
+offset_right = -156.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("2_4rcxs")
+stretch_mode = 2
+
+[node name="ArrowDown" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 60.0
+offset_right = -156.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("2_dp0pp")
+stretch_mode = 2
+
+[node name="ArrowLeft" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 60.0
+offset_right = -156.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("4_nw245")
+stretch_mode = 2
+
+[node name="ArrowRight" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 60.0
+offset_right = -156.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("5_t68u1")
+stretch_mode = 2
+
+[node name="TriangleDown" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 60.0
+offset_right = -156.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("4_67yxi")
+stretch_mode = 2
+
+[node name="TriangleUp" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 60.0
+offset_right = -156.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("7_xoe63")
+stretch_mode = 2
+
+[node name="ArrowsOuter" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 60.0
+offset_right = -156.0
+offset_bottom = -236.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("8_sgq0g")
+stretch_mode = 2
+
+[node name="ArrowsCenter" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 60.0
+offset_right = 420.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("3_4rcxs")
+stretch_mode = 2
+
+[node name="Cross" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 43.295
+offset_right = 420.0
+offset_bottom = 43.294983
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("9_mb51l")
+stretch_mode = 2
+
+[node name="Plus" type="TextureRect" parent="blockbench_export/SubViewportSymbol"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 445.625
+offset_top = 60.0
+offset_right = 445.62488
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("10_sgq0g")
+stretch_mode = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00036621094, 0.09436035, 0)
+shape = SubResource("BoxShape3D_u0w2l")

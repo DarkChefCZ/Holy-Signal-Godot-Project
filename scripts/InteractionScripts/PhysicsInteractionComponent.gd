@@ -131,6 +131,7 @@ func _ready() -> void:
 				starting_rotation = object_ref.rotation.z
 			
 			maxium_rotation = starting_rotation + deg_to_rad(maxium_rotation)
+			
 		InteractionType.DOOR:
 			last_door_rotation = door_pivot_point.rotation
 			primary_audio_player.stream = door_open_se
@@ -179,6 +180,7 @@ func _process(delta: float) -> void:
 			
 			
 			if is_switch_snapping:
+				var raw_percentage: float
 				var percentage: float
 				if not switch_kickback_triggered:
 					switch_kickback_triggered = true
@@ -192,13 +194,15 @@ func _process(delta: float) -> void:
 					if abs(object_ref.rotation.x - switch_target_rotation) < 0.1:
 						object_ref.rotation.x = switch_target_rotation
 						is_switch_snapping = false
-					percentage = (object_ref.rotation.x - starting_rotation) / (maxium_rotation - starting_rotation)
+					raw_percentage = (object_ref.rotation.x - starting_rotation) / (maxium_rotation - starting_rotation)
 				else:
 					object_ref.rotation.z = lerp_angle(object_ref.rotation.z, switch_target_rotation, delta * switch_lerp_speed)
 					if abs(object_ref.rotation.z - switch_target_rotation) < 0.1:
 						object_ref.rotation.z = switch_target_rotation
 						is_switch_snapping = false
-					percentage = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+					raw_percentage = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+				
+				percentage = raw_percentage
 				
 				notify_nodes(percentage)
 			else:
@@ -328,6 +332,7 @@ func _input(event: InputEvent) -> void:
 					
 					door_pivot_point.rotation.y = clamp(door_pivot_point.rotation.y, starting_rotation, maxium_rotation)
 			InteractionType.SWITCH:
+				var raw_percentage: float
 				var percentage: float
 				if event is InputEventMouseMotion:
 					if rotate_on_x:
@@ -337,16 +342,18 @@ func _input(event: InputEvent) -> void:
 						else:
 							object_ref.rotate_x(-event.relative.y * object_sensitivity)
 						object_ref.rotation.x = clamp(object_ref.rotation.x, starting_rotation, maxium_rotation)
-						percentage = (object_ref.rotation.x - starting_rotation) / (maxium_rotation - starting_rotation)
+						raw_percentage = (object_ref.rotation.x - starting_rotation) / (maxium_rotation - starting_rotation)
 						if abs(object_ref.rotation.x - prev_angle) > 0.01:
 							switch_moved = true
 					else:
 						var prev_angle = object_ref.rotation.z
 						object_ref.rotate_z(event.relative.y * object_sensitivity)
 						object_ref.rotation.z = clamp(object_ref.rotation.z, starting_rotation, maxium_rotation)
-						percentage = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
+						raw_percentage = (object_ref.rotation.z - starting_rotation) / (maxium_rotation - starting_rotation)
 						if abs(object_ref.rotation.z - prev_angle) > 0.01:
 							switch_moved = true
+					
+					percentage = raw_percentage
 					
 					notify_nodes(percentage)
 			InteractionType.WHEEL:
@@ -400,14 +407,18 @@ func set_direction(_normal: Vector3) -> void:
 
 func notify_nodes(percentage: float) -> void:
 	var switch_name = get_parent().get_parent().get_parent().name
+	var zero_one_switch_name = get_parent().get_parent().name
 	for node in nodes_to_affect:
 		if node and node.has_method("execute"):
 			if switch_name == "LockInPanel1":
 				node.call("execute", percentage, "FirstPanel")
 			elif switch_name == "LockInPanel2":
+				print("I got even here")
 				node.call("execute", percentage, "SecondPanel")
 			elif switch_name == "LockInPanel3":
 				node.call("execute", percentage, "ThirdPanel")
+			elif zero_one_switch_name.begins_with("zero_one_switch_"):
+				node.call("execute", percentage, zero_one_switch_name)
 		else:
 			push_error(str(node.name) + " doesn't have the 'execute' function, therefore the switch affects nothing" )
 
