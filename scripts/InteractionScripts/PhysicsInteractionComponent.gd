@@ -109,8 +109,10 @@ func _ready() -> void:
 	
 	primary_audio_player = AudioStreamPlayer3D.new()
 	add_child(primary_audio_player)
+	primary_audio_player.global_position = primary_audio_player.get_parent().get_parent().global_position
 	secondary_audio_player = AudioStreamPlayer3D.new()
 	add_child(secondary_audio_player)
+	secondary_audio_player.global_position = secondary_audio_player.get_parent().get_parent().global_position
 	
 	match interaction_type:
 		InteractionType.DEFAULT:
@@ -413,7 +415,6 @@ func notify_nodes(percentage: float) -> void:
 			if switch_name == "LockInPanel1":
 				node.call("execute", percentage, "FirstPanel")
 			elif switch_name == "LockInPanel2":
-				print("I got even here")
 				node.call("execute", percentage, "SecondPanel")
 			elif switch_name == "LockInPanel3":
 				node.call("execute", percentage, "ThirdPanel")
@@ -448,6 +449,7 @@ func _collect_note() -> void:
 		mesh.layers |= 1 << 1
 	
 	if pick_up_se:
+		primary_audio_player.volume_db = volume_primary_audio_player
 		primary_audio_player.stream = pick_up_se
 		primary_audio_player.play()
 	holding_note = true

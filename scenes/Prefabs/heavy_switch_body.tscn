@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://7vl4cctpbwlt"]
+
+[ext_resource type="PackedScene" uid="uid://ffmdbok5pm2c" path="res://assets/models/InteractionComponentsModels/big_switch.gltf" id="1_pdi6o"]
+[ext_resource type="PackedScene" uid="uid://cfjsb45l78wc8" path="res://scenes/Prefabs/InteractionComponents/interaction_component.tscn" id="2_ocnx7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7mbno"]
+size = Vector3(0.80636597, 1.6259766, 0.12109375)
+
+[node name="Heavy_switch_body" type="RigidBody3D"]
+
+[node name="blockbench_export" parent="." instance=ExtResource("1_pdi6o")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0.000289917, 0.12211695, 0)
+shape = SubResource("BoxShape3D_7mbno")
+
+[node name="InteractionComponent" parent="." node_paths=PackedStringArray("object_ref") instance=ExtResource("2_ocnx7")]
+object_ref = NodePath("..")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14514124, 0)
+light_color = Color(0.5856263, 0.25300202, 0.09955237, 1)
+light_energy = 0.1
+light_indirect_energy = 4.0
+shadow_enabled = true
+omni_range = 0.10046057

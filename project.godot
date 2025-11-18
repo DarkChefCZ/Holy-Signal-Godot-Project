@@ -27,6 +27,10 @@ window/size/mode=4
 window/stretch/aspect="expand"
 window/stretch/scale_mode="integer"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/NodeShaker3D/plugin.cfg")
+
 [file_customization]
 
 folder_colors={

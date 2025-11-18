@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cbns6u0qlywns"]
+
+[ext_resource type="PackedScene" uid="uid://c4es4axlhssa3" path="res://assets/models/podiums/AntennaOperationPodiumSmall.gltf" id="1_gia3t"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xdhto"]
+size = Vector3(0.8769531, 0.31744385, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pps7p"]
+size = Vector3(0.6923828, 1.2022095, 0.8154297)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a15ky"]
+size = Vector3(0.7519531, 0.27038574, 1.3969727)
+
+[node name="control_panel_podium_small" type="StaticBody3D"]
+
+[node name="blockbench_export" parent="." instance=ExtResource("1_gia3t")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1567688, 0)
+shape = SubResource("BoxShape3D_xdhto")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91363525, 0)
+shape = SubResource("BoxShape3D_pps7p")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.8465278, 0.5323445, 0, -0.5323445, 0.8465278, 0, 1.7653806, 0.12820266)
+shape = SubResource("BoxShape3D_a15ky")

@@ -167,6 +167,7 @@ func _input(_event: InputEvent) -> void:
 		var children = note_hand.get_children()
 		for child in children:
 			if ic.put_down_se:
+				ic.secondary_audio_player.volume_db = ic.volume_secondary_audio_player
 				ic.secondary_audio_player.stream = ic.put_down_se
 				ic.secondary_audio_player.play()
 			child.get_parent().remove_child(child)

@@ -21,6 +21,7 @@ shader_parameter/time = 0.0
 shader_parameter/amplitude = 0.30000001099011997
 shader_parameter/frequency = 3.30000015349012
 shader_parameter/thickness = 0.01
+shader_parameter/line_color = Vector4(0, 1, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a1uu3"]
 size = Vector3(1.748291, 0.18920898, 1)

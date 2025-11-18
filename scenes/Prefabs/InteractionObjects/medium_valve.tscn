@@ -22,7 +22,8 @@ shape = SubResource("CylinderShape3D_xyoej")
 [node name="InteractionComponent" parent="Valve" node_paths=PackedStringArray("object_ref") instance=ExtResource("2_gcbk1")]
 object_ref = NodePath("..")
 interaction_type = 3
-volume_primary_audio_player = -16.0
+volume_primary_audio_player = -32.0
+volume_secondary_audio_player = -32.0
 maxium_rotation = 360.0
 nodes_that_switch_affects = Array[String](["CalculationNode1"])
 wheel_snap_interval_deg = 0.1

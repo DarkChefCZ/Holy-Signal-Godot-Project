@@ -19,6 +19,10 @@ var time: float
 @export var IndicationLight: OmniLight3D
 @export var FirstPanelVoice: AudioStreamWAV
 
+@export_group("PreSecondPanel")
+@export var InstallationSound: AudioStreamPlayer3D
+@export var InstallationArea: Area3D
+
 @export_group("SecondPanelLighting+Objects")
 @export var secondControlPanelHighlight: Node3D
 @export var SwitchLockIn2: Node3D
@@ -28,6 +32,9 @@ var time: float
 @export var Panel_Screen_Symbols: Node3D
 @export var IndicationLight2: OmniLight3D
 @export var SecondPanelVoice: AudioStreamWAV
+
+@export_group("ThirdPanelLighting+Objects")
+@export var thirdControlPanel: Node3D
 
 var icontrol: Node
 
@@ -41,6 +48,8 @@ var LightChildren2
 var ic2
 var secondPanelInteractionObjects
 var secondPanelSymbols
+
+var panelGoingUp: bool
 
 signal firstPanelComplete
 signal secondPanelComplete
@@ -60,6 +69,8 @@ func _ready() -> void:
 	for light in LightChildren2:
 			light.visible = false
 	
+	SwitchLockIn2.find_child("HeavySwitch", true, false).visible = false
+	
 	ic2 = SwitchLockIn2.find_child("InteractionComponent", true, true)
 	ic2.can_interact = false
 	secondPanelInteractionObjects = ObjectsToDisableGroup.find_children("zero_one_switch*", "Node3D", true, true)
@@ -69,7 +80,13 @@ func _ready() -> void:
 	
 	secondPanelSymbols = Panel_Screen_Symbols.find_children("*", "TextureRect", true, true)
 
+var t: float = 0.0
 func _process(delta: float) -> void:
+	
+	if panelGoingUp:
+		t += delta * 0.005
+		thirdControlPanel.position.y = lerp(thirdControlPanel.position.y, 0.0, t)
+	
 	if resetting_switch == true:
 		if ic1.rotate_on_x == true:
 			ic1.object_ref.rotation.x = lerp_angle(ic1.object_ref.rotation.x, ic1.starting_rotation, delta * ic1.switch_lerp_speed)
@@ -162,7 +179,8 @@ func _on_intercom_finished() -> void:
 		secondControlPanelHighlight.find_child("AudioStreamPlayer3D", true, false).playing = true
 		Sound2Trigger.monitoring = true
 	elif intercom.stream == SecondPanelVoice:
-		print("I am the best")
+		await get_tree().create_timer(1.0).timeout
+		panelGoingUp = true
 
 
 func _on_first_panel_complete() -> void:
@@ -172,11 +190,12 @@ func _on_first_panel_complete() -> void:
 		intercom.playing = true
 		for object in secondPanelInteractionObjects:
 			object.find_child("InteractionComponent", true, true).can_interact = true
-		ic2.can_interact = true
 
 
 func _on_sound_2_trigger_area_body_entered(body: Node3D) -> void:
 	if body is CharacterBody3D:
+		Sound2MetalStream.playing = true
+		await get_tree().create_timer(0.4).timeout
 		Sound2MetalStream.playing = true
 		Sound2Trigger.queue_free()
 
@@ -186,3 +205,12 @@ func _on_second_panel_complete() -> void:
 	intercom.stream = SecondPanelVoice
 	intercom.playing = true
 	#ic3.can_interact = true
+
+
+func _on_heavy_switch_placement_area_body_exited(body: Node3D) -> void:
+	if body.name == "Heavy_switch_body":
+		InstallationSound.playing = true
+		body.queue_free()
+		SwitchLockIn2.find_child("HeavySwitch", true, false).visible = true
+		ic2.can_interact = true
+		InstallationArea.set_deferred("monitoring", false)
