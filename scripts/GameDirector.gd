@@ -43,9 +43,16 @@ var time: float
 @export_group("Extra")
 @export var servers: Node3D
 @export var tables: Node3D
+@export var collisionWallsEnd: StaticBody3D
 
 var icontrol: Node
 var waveReady: bool = false
+var AngelMessages: RichTextLabel
+var MessageStream: AudioStreamPlayer3D
+var current_message_id := 0
+
+const MAN_SCREAM_REVERSE_SOUND = preload("uid://d1nt53ssbcow6")
+
 
 var ic0: Node
 
@@ -66,11 +73,21 @@ var LightChildren0b
 var ic3
 var StatusScreen
 
+signal displayMessage(message: String, messageDuration: float)
 signal firstPanelComplete
 signal secondPanelComplete
 signal endingSequence
 
+const TURNONTHELIGHTS = preload("uid://dic8gteuhw31q")
+const LOOKATYOURNOTES = preload("uid://cx2w0p2txly50")
+const WRONG = preload("uid://5w2msbp3ylys")
+const OPENTHEFIRSTGATE = preload("uid://dfmslrda2lax5")
+const STEPFORWARD = preload("uid://dndfh6w8b6gle")
+
+
 func _ready() -> void:
+	AngelMessages = player.find_child("AngelMessages", true, true)
+	MessageStream = player.find_child("CharDisplayedStream", true, true)
 	ic0 = SwitchLockIn0.find_child("InteractionComponent", true, true)
 	
 	ic1 = SwitchLockIn1.find_child("InteractionComponent", true, true)
@@ -111,12 +128,17 @@ func _ready() -> void:
 	ic3.can_interact = false
 	
 	StatusScreen = panelScreenStatus.find_child("RichTextLabel", true, true)
+	
+	await get_tree().create_timer(0.5).timeout
+	emit_signal("displayMessage", "< Turn on the lights >", 4.0)
+	
 
 var t: float = 0.0
 func _process(delta: float) -> void:
 	
 	
 	if resetting_switch == true:
+		emit_signal("displayMessage", "< Wrong >", 2.0)
 		if ic1.rotate_on_x == true:
 			ic1.object_ref.rotation.x = lerp_angle(ic1.object_ref.rotation.x, ic1.starting_rotation, delta * ic1.switch_lerp_speed)
 			if abs(ic1.object_ref.rotation.x - ic1.starting_rotation) < 0.01:
@@ -170,7 +192,7 @@ func _on_panel_1_trigger_area_body_entered(body: Node3D) -> void:
 	if body is CharacterBody3D:
 		for light in LightChildren1:
 			light.visible = true
-		
+		emit_signal("displayMessage", "< Open the first gate >", 3.0)
 		firstControlPanelHighlight.find_child("AudioStreamPlayer3D", true, false).playing = true
 		firstControlPanelArea.queue_free()
 	else:
@@ -187,7 +209,7 @@ func execute(percentage, switchType) -> void:
 			for light in LightChildren0b:
 				light.visible = true
 			originalHighlight.find_child("AudioStreamPlayer3D", true, true).playing = true
-			
+			emit_signal("displayMessage", "< Look at your notes, Leo >", 5.0)
 			if originalHighlight.find_child("AudioStreamPlayerOn", true, true).playing == false:
 				originalHighlight.find_child("AudioStreamPlayerOn", true, true).playing = true
 			ic0.is_interacting = false
@@ -227,6 +249,7 @@ func execute(percentage, switchType) -> void:
 	elif switchType == "ThirdPanel":
 		if percentage > 0.99:
 			if waveReady:
+				player.EnableWalking = false
 				emit_signal("endingSequence")
 			else:
 				if ic3.is_interacting == false and ic3.is_switch_snapping == false:
@@ -249,12 +272,15 @@ func _on_intercom_finished() -> void:
 		Sound2Trigger.monitoring = true
 	elif intercom.stream == SecondPanelVoice:
 		ic3.can_interact = true
-		await get_tree().create_timer(1.75).timeout
+		await get_tree().create_timer(1.5).timeout
+		
 		ic0.primary_audio_player.playing = true
 		for light in LightChildren0a:
 			light.visible = false
 		for light in LightChildren0b:
 			light.visible = false
+		await get_tree().create_timer(0.2).timeout
+		emit_signal("displayMessage", "< I'm with you, my child >", 3.0)
 		waveReady = true
 	elif intercom.stream == ThirdPanelVoice:
 		preControlPanelHighlight.queue_free()
@@ -265,6 +291,15 @@ func _on_intercom_finished() -> void:
 		for speaker in Speakers:
 			speaker.find_child("AudioStreamPlayer3D", true, true).playing = false
 			speaker.queue_free()
+		
+		player.EnableWalking = true
+		emit_signal("displayMessage", "< Step forward, chosen >", 3.0)
+		var collisionChildren = collisionWallsEnd.find_children("*", "CollisionShape3D", true , false)
+		for collider in collisionChildren:
+			collider.disabled = false
+		Sound2MetalStream.stream = MAN_SCREAM_REVERSE_SOUND
+		Sound2MetalStream.volume_db = 160.0
+		Sound2MetalStream.playing = true
 
 
 func _on_first_panel_complete() -> void:
@@ -303,3 +338,41 @@ func _on_ending_sequence() -> void:
 	await get_tree().create_timer(0.2).timeout
 	intercom.stream = ThirdPanelVoice
 	intercom.playing = true
+
+
+func _on_display_message(message: String, messageDuration: float) -> void:
+	
+	current_message_id += 1
+	var my_id = current_message_id
+	
+	AngelMessages.text = ""
+	
+	if MessageStream.playing:
+		MessageStream.playing = false
+	
+	match message:
+		"< Turn on the lights >":
+			MessageStream.stream = TURNONTHELIGHTS
+		"< Look at your notes, Leo >":
+			MessageStream.stream = LOOKATYOURNOTES
+		"< Wrong >":
+			MessageStream.stream = WRONG
+		"< Open the first gate >":
+			MessageStream.stream = OPENTHEFIRSTGATE
+		"< Step forward, chosen >":
+			MessageStream.stream = STEPFORWARD
+	MessageStream.playing = true
+	
+	for i in message.length():
+		if my_id != current_message_id:
+			return  # aborted
+		AngelMessages.text += message[i]
+		await get_tree().create_timer(0.01).timeout
+	
+	var timer = get_tree().create_timer(messageDuration)
+	await timer.timeout
+	
+	if my_id != current_message_id:
+		return
+	
+	AngelMessages.text = ""

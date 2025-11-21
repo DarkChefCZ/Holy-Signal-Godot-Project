@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="HolySignal"
-run/main_scene="uid://bgj76c22s1evx"
+run/main_scene="uid://by55glops6kb3"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://svfkuri6pvwf"
 config/windows_native_icon="res://HolySignalIcon.ico"

@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://t806rd6n8ctd"]
+
+[ext_resource type="PackedScene" uid="uid://c2bodqhsgps08" path="res://assets/models/rapture_angel.gltf" id="1_328rl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h21i7"]
+size = Vector3(41.748047, 8.486267, 2.8339844)
+
+[node name="Angel" type="StaticBody3D"]
+
+[node name="blockbench_export" parent="." instance=ExtResource("1_328rl")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5302947, -0.3774929)
+light_color = Color(1, 0, 0, 1)
+light_energy = 3.34
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5094948, 3.9942927, 0.13694239)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.405
+shadow_enabled = true
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.509, 3.994, 0.137)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.405
+shadow_enabled = true
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5094948, 0.49104095, 0.43848562)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.405
+shadow_enabled = true
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.509, 0.49074817, 0.43854323)
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.405
+shadow_enabled = true
+
+[node name="AngelRawrStream" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4839957, -0.45995426)
+
+[node name="DeathCol" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathCol"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.20889282, -0.9169922)
+shape = SubResource("BoxShape3D_h21i7")

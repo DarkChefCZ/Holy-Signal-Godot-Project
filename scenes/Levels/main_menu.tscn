@@ -1,7 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://by55glops6kb3"]
+[gd_scene load_steps=22 format=3 uid="uid://by55glops6kb3"]
 
+[ext_resource type="Script" uid="uid://csfahmoy5ylam" path="res://scenes/Levels/MainMenuSFX.gd" id="1_ag6ye"]
 [ext_resource type="PackedScene" uid="uid://b0x25cli0tq5c" path="res://scenes/Prefabs/light_prefab.tscn" id="1_towmw"]
 [ext_resource type="PackedScene" uid="uid://bs5hhakyd7ky7" path="res://assets/models/objects/wooden_cross.gltf" id="2_lars7"]
+[ext_resource type="AudioStream" uid="uid://c1nm2m0aa2lst" path="res://assets/sounds/542023__rob_marion__gasp_ui_clicks_4.wav" id="2_rdmro"]
+[ext_resource type="AudioStream" uid="uid://bqe7u8l7p3v3w" path="res://assets/sounds/770971__poundsounduk__ui_pop_up_03.wav" id="3_6o3bs"]
 [ext_resource type="Shader" uid="uid://56t6l55demno" path="res://assets/materials/no_repetition.gdshader" id="3_cbtn6"]
 [ext_resource type="Texture2D" uid="uid://j4mdl8e2ctmk" path="res://assets/textures/floor_concrete.png" id="4_gken0"]
 [ext_resource type="Shader" uid="uid://dwql2m0rf0qgy" path="res://shaders/playerEyesShaderV2.gdshader" id="5_cbtn6"]
@@ -120,7 +123,11 @@ bg_color = Color(0.103743516, 0.10374353, 0.103743516, 0.20392157)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qrs31"]
 
-[node name="MainMenu" type="Node3D"]
+[node name="MainMenu" type="Node3D" node_paths=PackedStringArray("StreamPlayer")]
+script = ExtResource("1_ag6ye")
+StreamPlayer = NodePath("UISFX")
+HoverSFX = ExtResource("2_rdmro")
+ClickSFX = ExtResource("3_6o3bs")
 
 [node name="PreviewScene" type="Node3D" parent="."]
 
@@ -274,5 +281,13 @@ volume_db = -20.0
 autoplay = true
 bus = &"Clean"
 
+[node name="UISFX" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41447592, 16.88307, -27.21121)
+volume_db = -20.0
+
+[connection signal="button_down" from="Camera3D/CanvasLayer2/Control/PlayButton" to="." method="_on_play_button_button_down"]
 [connection signal="button_down" from="Camera3D/CanvasLayer2/Control/PlayButton" to="Camera3D/TransitionScreen" method="_on_play_button_button_down"]
+[connection signal="mouse_entered" from="Camera3D/CanvasLayer2/Control/PlayButton" to="." method="_on_play_button_mouse_entered"]
+[connection signal="button_down" from="Camera3D/CanvasLayer2/Control/QuitButton" to="." method="_on_quit_button_button_down"]
 [connection signal="button_down" from="Camera3D/CanvasLayer2/Control/QuitButton" to="Camera3D/TransitionScreen" method="_on_quit_button_button_down"]
+[connection signal="mouse_entered" from="Camera3D/CanvasLayer2/Control/QuitButton" to="." method="_on_quit_button_mouse_entered"]
