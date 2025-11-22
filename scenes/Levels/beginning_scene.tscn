@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://dubjm7f27vcis"]
+
+[ext_resource type="Script" uid="uid://ds4s3icnp3n5" path="res://scripts/beginning_scene.gd" id="1_q6hgt"]
+[ext_resource type="FontFile" uid="uid://x2f512as3wp8" path="res://assets/Cinzel-VariableFont_wght.ttf" id="1_u2ytp"]
+[ext_resource type="PackedScene" uid="uid://n7u1fwq7n26j" path="res://scenes/transition_screen.tscn" id="3_ej5jd"]
+
+[node name="beginningScene" type="Node3D" node_paths=PackedStringArray("text", "transitionLayer")]
+script = ExtResource("1_q6hgt")
+text = NodePath("Control/RichTextLabel")
+transitionLayer = NodePath("TransitionScreen")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -61.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("1_u2ytp")
+theme_override_font_sizes/normal_font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="TransitionScreen" parent="." instance=ExtResource("3_ej5jd")]

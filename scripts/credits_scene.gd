@@ -5,6 +5,7 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	await get_tree().create_timer(3.5).timeout
 	audio.playing = true
 	await get_tree().create_timer(1.0).timeout

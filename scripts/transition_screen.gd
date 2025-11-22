@@ -26,7 +26,7 @@ func fade_to_scene(scene_path: String) -> void:
 	color_rect.visible = false
 
 func _on_play_button_button_down() -> void:
-	await fade_to_scene("res://scenes/Levels/main_scene.tscn")
+	await fade_to_scene("res://scenes/Levels/beginning_scene.tscn")
 
 
 func _on_quit_button_button_down() -> void:

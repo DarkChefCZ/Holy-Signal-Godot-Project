@@ -5,7 +5,8 @@ extends Node3D
 @export var HoverSFX: AudioStreamWAV
 @export var ClickSFX: AudioStreamWAV
 
-
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _on_play_button_mouse_entered() -> void:

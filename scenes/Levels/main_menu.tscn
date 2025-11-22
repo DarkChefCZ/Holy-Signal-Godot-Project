@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://by55glops6kb3"]
 
-[ext_resource type="Script" uid="uid://csfahmoy5ylam" path="res://scenes/Levels/MainMenuSFX.gd" id="1_ag6ye"]
+[ext_resource type="Script" uid="uid://csfahmoy5ylam" path="res://scripts/MainMenuSFX.gd" id="1_ag6ye"]
 [ext_resource type="PackedScene" uid="uid://b0x25cli0tq5c" path="res://scenes/Prefabs/light_prefab.tscn" id="1_towmw"]
 [ext_resource type="PackedScene" uid="uid://bs5hhakyd7ky7" path="res://assets/models/objects/wooden_cross.gltf" id="2_lars7"]
 [ext_resource type="AudioStream" uid="uid://c1nm2m0aa2lst" path="res://assets/sounds/542023__rob_marion__gasp_ui_clicks_4.wav" id="2_rdmro"]

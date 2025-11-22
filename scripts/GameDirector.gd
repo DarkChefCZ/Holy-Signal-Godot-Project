@@ -134,7 +134,7 @@ func _ready() -> void:
 	ic3.can_interact = false
 	
 	StatusScreen = panelScreenStatus.find_child("RichTextLabel", true, true)
-	
+	player.EnableWalking = false
 	await get_tree().create_timer(0.5).timeout
 	emit_signal("displayMessage", "< Turn on the lights >", 4.0)
 	
@@ -214,6 +214,7 @@ func _on_panel_1_trigger_area_body_entered(body: Node3D) -> void:
 func execute(percentage, switchType) -> void:
 	if switchType == "ZeroPanel":
 		if percentage > 0.99:
+			player.EnableWalking = true
 			icontrol.changeReticle(icontrol.default_reticle)
 			for light in SmallLightChildren:
 				light.visible = false
