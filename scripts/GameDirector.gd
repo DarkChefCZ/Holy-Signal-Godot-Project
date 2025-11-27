@@ -140,7 +140,7 @@ func _ready() -> void:
 	
 	ScareTrigger.monitoring = false
 	sfxScare = Angel.find_child("AngelRawrStream", true, false)
-	psxEffect = player.find_child("PSXEffects", true, false)
+	psxEffect = get_tree().current_scene.find_child("PSXEffects", true, true)
 
 var t: float = 0.0
 func _process(delta: float) -> void:
@@ -228,6 +228,7 @@ func execute(percentage, switchType) -> void:
 				originalHighlight.find_child("AudioStreamPlayerOn", true, true).playing = true
 			ic0.is_interacting = false
 			ic0.can_interact = false
+			get_tree().current_scene.find_child("TransitionScreen", true, false).queue_free()
 		
 	elif switchType == "FirstPanel":
 		if percentage > 0.99:

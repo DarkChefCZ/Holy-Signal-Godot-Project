@@ -1,6 +1,7 @@
-[gd_scene load_steps=94 format=3 uid="uid://dplc2ix5nnr8m"]
+[gd_scene load_steps=96 format=3 uid="uid://dplc2ix5nnr8m"]
 
 [ext_resource type="PackedScene" uid="uid://8wuuyqhvgo6v" path="res://scenes/Prefabs/player.tscn" id="1_7rf4f"]
+[ext_resource type="Shader" uid="uid://dwql2m0rf0qgy" path="res://shaders/playerEyesShaderV2.gdshader" id="1_7v623"]
 [ext_resource type="Material" uid="uid://by58c4eirglv8" path="res://assets/materials/hazard_mat.tres" id="1_fv5kg"]
 [ext_resource type="Shader" uid="uid://56t6l55demno" path="res://assets/materials/no_repetition.gdshader" id="2_384xt"]
 [ext_resource type="PackedScene" uid="uid://bs5hhakyd7ky7" path="res://assets/models/objects/wooden_cross.gltf" id="2_dstxs"]
@@ -58,12 +59,32 @@
 [ext_resource type="PackedScene" uid="uid://der6eay4e0gi7" path="res://scenes/Prefabs/panel_screen_status.tscn" id="54_yw4ww"]
 [ext_resource type="PackedScene" uid="uid://t806rd6n8ctd" path="res://scenes/Prefabs/angel.tscn" id="57_rc7ik"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6fbjj"]
+shader = ExtResource("1_7v623")
+shader_parameter/grain_intensity = 0.150000007125
+shader_parameter/min_lum = 0.400000019
+shader_parameter/max_lum = 0.6000000285
+shader_parameter/time_scale = 1.0
+shader_parameter/vignette_darkness = 0.0
+shader_parameter/vignette_outer_radius = 0.10000000149012
+shader_parameter/vignette_inner_radius = 0.0
+shader_parameter/scanline_intensity = 0.050000002375
+shader_parameter/barrel_distortion = 0.0050000002375
+shader_parameter/chromatic_aberration = 0.0
+shader_parameter/crt_vignette_power = 0.50000002375
+shader_parameter/pixel_resolution_x = 640
+shader_parameter/pixel_resolution_y = 480
+shader_parameter/enable_color_quantization = true
+shader_parameter/color_quant_steps = 36.000001615
+shader_parameter/warble_amount = 0.0
+shader_parameter/warble_speed = 0.0
+
 [sub_resource type="Environment" id="Environment_ahxxq"]
 background_energy_multiplier = 0.0
 ambient_light_source = 2
 ambient_light_energy = 0.0
 tonemap_mode = 3
-sdfgi_enabled = true
+ssil_enabled = true
 sdfgi_bounce_feedback = 0.0
 sdfgi_energy = 0.065
 glow_strength = 2.0
@@ -304,6 +325,20 @@ size = Vector3(1, 6.0838623, 22.243896)
 size = Vector3(14.173828, 7.9716797, 1)
 
 [node name="MainScene" type="Node3D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PSXEffects" type="ColorRect" parent="CanvasLayer"]
+top_level = true
+light_mask = 7
+visibility_layer = 7
+material = SubResource("ShaderMaterial_6fbjj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="TransitionScreen" parent="." instance=ExtResource("17_7v623")]
 layer = 3
